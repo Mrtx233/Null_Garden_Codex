@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="文章 | Null Garden | LV MA"
+  description="Null Garden 的全部非草稿文章。"
+>
+  <section class="page-header">
+    <p class="eyebrow">Blog</p>
+    <h1>文章</h1>
+    <p>
+      技术学习、AI 工具、项目实践、产品思考和个人观察都会慢慢整理在这里。
+    </p>
+  </section>
+
+  <div class="post-list">
+    {posts.map((post) => (
+      <article class="post-card post-card-wide">
+        <div class="post-meta">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </div>
+        <h2>
+          <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+        </h2>
+        <p>{post.data.description}</p>
+        <ul class="tag-list" aria-label="标签">
+          {post.data.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </article>
+    ))}
+  </div>
+</BaseLayout>

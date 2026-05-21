@@ -1,0 +1,78 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: "website" | "article";
+}
+
+const {
+  title = "Null Garden | LV MA",
+  description = "你好，我是 LV MA。这里是 Null Garden，一个记录技术、AI 工具、项目实践和个人思考的地方。",
+  ogType = "website"
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-title" href="/">Null Garden_</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/">首页</a>
+        <a href="/blog/">文章</a>
+        <a href="/about/">关于</a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="切换浅色模式">
+        ◐
+      </button>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>Null Garden | LV MA</p>
+    </footer>
+    <script is:inline>
+      const storedTheme = localStorage.getItem("theme");
+      const themeToggle = document.querySelector(".theme-toggle");
+
+      if (storedTheme === "light" || storedTheme === "dark") {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+
+      const syncThemeLabel = () => {
+        const isLight = document.documentElement.dataset.theme === "light";
+        themeToggle?.setAttribute(
+          "aria-label",
+          isLight ? "切换深色模式" : "切换浅色模式"
+        );
+      };
+
+      syncThemeLabel();
+
+      themeToggle?.addEventListener("click", () => {
+        const nextTheme =
+          document.documentElement.dataset.theme === "light" ? "dark" : "light";
+        document.documentElement.dataset.theme = nextTheme;
+        localStorage.setItem("theme", nextTheme);
+        syncThemeLabel();
+      });
+    </script>
+  </body>
+</html>
