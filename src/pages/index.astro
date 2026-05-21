@@ -1,17 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import {
+  getPostDescription,
+  getPostOrderLabel,
+  getPostTitle,
+  sortPostsByFileOrder
+} from "../utils/blog";
 
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-
-const posts = (await getCollection("blog", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const posts = sortPostsByFileOrder(
+  await getCollection("blog", ({ data }) => !data.draft)
+).slice(0, 3);
 ---
 
 <BaseLayout>
@@ -38,14 +37,16 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
     <div class="post-grid">
       {posts.map((post) => (
         <article class="post-card">
-          <p class="post-date">{formatDate(post.data.pubDate)}</p>
+          <p class="post-date">{getPostOrderLabel(post)}</p>
           <h3>
-            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            <a href={`/blog/${post.id}/`}>{getPostTitle(post)}</a>
           </h3>
-          <p>{post.data.description}</p>
-          <ul class="tag-list" aria-label="标签">
-            {post.data.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
+          <p>{getPostDescription(post)}</p>
+          {post.data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="标签">
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
         </article>
       ))}
     </div>

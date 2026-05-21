@@ -192,3 +192,123 @@ Quiet Tech Minimalism
 ### AI 输出
 
 已准备将 Null Garden 项目提交并推送到 `git@github.com:Mrtx233/Null_Garden_Codex.git`，推送前构建验证通过。
+
+## 2026-05-21 18:43
+
+### 用户输入
+
+读取ai-dev-rules.md 了解项目
+
+### 需求理解
+
+本轮用户要求重新读取 `ai-dev-rules.md` 并了解当前 Null Garden 项目状态；影响范围为协作规则、项目结构、主要配置、页面、样式、内容集合、协作日志和 Git 状态检查，不涉及业务页面、组件、样式或功能逻辑修改。
+
+### 修改内容
+
+- 读取了 `ai-dev-rules.md`，确认后续 AI 协作开发规则。
+- 检查了 `docs/ai-dev-log.md` 和 `docs/data/fileChangeLog.ts`，确认上一轮记录字段完整。
+- 阅读了 README、Astro/TypeScript/Netlify 配置、主要页面、布局、全局样式、内容集合和示例文章。
+- 检查了 Git 状态、远程仓库和最近提交，确认工作区干净且 `main` 跟踪 `origin/main`。
+
+### 改动文件
+
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已读取 `ai-dev-rules.md` 并了解当前 Null Garden 项目：这是一个 Astro + TypeScript + Markdown Content Collections 的个人博客，可通过 Netlify 使用 `npm run build` 构建并发布到 `dist`。
+
+## 2026-05-21 19:41
+
+### 用户输入
+
+现在请进入第三阶段：检查、优化和 Netlify 部署准备。项目是一个 Astro 个人博客：博客名称 Null Garden，页面标题 Null Garden | LV MA，部署平台 Netlify，构建命令 npm run build，发布目录 dist。要求全面检查项目结构、代码质量、SEO、响应式、Netlify 配置、README，并运行 npm run build；不要引入 UI 框架，不加入评论系统、搜索、RSS、sitemap。
+
+### 需求理解
+
+本轮用户要求完成第三阶段部署前检查和轻量优化；影响范围为 Astro 页面路由、内容集合、SEO meta、响应式 CSS、Netlify 配置、README、构建验证和协作记录，不涉及新增功能、复杂重构、UI 框架或额外依赖。
+
+### 修改内容
+
+- 检查了项目结构、页面路由、内容集合、Netlify 配置、依赖和 Git 状态。
+- 修改了 `README.md`，补充项目介绍、技术栈、本地开发命令、构建命令、Netlify 部署说明和新增博客文章说明。
+- 修改了 `src/layouts/BaseLayout.astro`，将 canonical URL 明确转换为字符串，保持 SEO 输出稳定。
+- 修改了 `src/styles/global.css`，优化移动端标题、正文、卡片和导航间距，并让文章卡片在移动端保持单列、易读。
+- 运行 `npm run build`，构建通过，生成 `/`、`/blog/`、`/blog/hello-world/`、`/about/` 四个页面。
+- 检查了构建产物和本地预览页面，确认 title、description、`html lang="zh-CN"`、viewport meta、Markdown 渲染和 draft 过滤逻辑正常。
+
+### 改动文件
+
+- `README.md`
+- `src/layouts/BaseLayout.astro`
+- `src/styles/global.css`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已完成第三阶段检查、优化和 Netlify 部署准备；项目构建通过，可以本地运行并部署到 Netlify，下一步可推送到 GitHub 后在 Netlify 连接仓库并使用 `npm run build` 与 `dist` 发布配置。
+
+## 2026-05-21 19:55
+
+### 用户输入
+
+[@netlify](plugin://netlify@openai-curated) 部署；确认
+
+### 需求理解
+
+本轮用户要求使用 Netlify 插件部署当前 Null Garden Astro 博客；影响范围为 Netlify 站点创建、生产部署、线上访问验证和协作记录，不涉及业务页面、样式、内容或项目结构改造。
+
+### 修改内容
+
+- 使用 Netlify 插件检查当前账号与项目状态，确认账号 `Mrtx233` 下尚无站点。
+- 在 Netlify 团队 `mrtx233` 下创建了站点 `null-garden`。
+- 运行 `npm run build`，确认部署前构建通过。
+- 执行 Netlify 部署命令，部署 ID 为 `6a0ef2674e322d2b927e509d`，部署状态为 `ready`。
+- 访问线上站点 `https://null-garden.netlify.app/`，确认首页 title、description、`lang="zh-CN"`、主标题和文章入口正常。
+- 修改 `.gitignore` 忽略 Netlify CLI 生成的 `.netlify/` 本地状态目录。
+
+### 改动文件
+
+- `.gitignore`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已在 Netlify 创建并部署 `null-garden`，生产地址为 `https://null-garden.netlify.app/`，部署状态为 ready，线上首页验证通过。
+
+## 2026-05-21 21:26
+
+### 用户输入
+
+删除 D:\Null_Garden_Codex\dist\blog\hello-world，然后读取 D:\Null_Garden_Codex\md 中的 md 文件生成新的 html，并且按照文件顺序排序在页面中。
+
+### 需求理解
+
+本轮用户要求删除旧的 `hello-world` 构建产物，并把博客内容来源改为项目根目录 `md/` 下的 Markdown 文件；影响范围为 Content Collections 配置、首页文章卡片、博客列表页、文章详情页、文章正文样式、构建产物和协作记录，不涉及 Netlify 重新部署或新增其他功能。
+
+### 修改内容
+
+- 删除了 `dist/blog/hello-world` 旧构建目录。
+- 修改了 `src/content.config.ts`，让博客集合从 `./md` 读取 Markdown，并允许无 frontmatter 的普通 Markdown。
+- 新增了 `src/utils/blog.ts`，用于从 Markdown 正文提取标题和描述，并按文件名前缀顺序排序。
+- 修改了首页、博客列表页和文章详情页，统一使用 `md/` 文件生成文章链接、标题、描述和顺序标签。
+- 修改了 `src/styles/global.css`，隐藏文章正文里重复的首个 H1，并补充代码块样式。
+- 运行 `npm run build`，构建通过，生成 6 篇新文章 HTML，确认 `dist/blog/hello-world` 不再存在。
+
+### 改动文件
+
+- `src/content.config.ts`
+- `src/utils/blog.ts`
+- `src/pages/index.astro`
+- `src/pages/blog/index.astro`
+- `src/pages/blog/[...slug].astro`
+- `src/styles/global.css`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已删除旧的 `dist/blog/hello-world`，并改为读取 `md/` 目录中的 6 篇 Markdown，按文件名前缀顺序生成新的博客 HTML；`npm run build` 构建通过。
