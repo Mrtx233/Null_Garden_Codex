@@ -6,28 +6,39 @@ import {
   getPostDescription,
   getPostOrderLabel,
   getPostTitle,
+  getPostUrl,
   sortPostsByFileOrder
 } from "../../utils/blog";
 
 interface Props {
   post: CollectionEntry<"blog">;
+  allPosts: CollectionEntry<"blog">[];
 }
 
 export async function getStaticPaths() {
-  const posts = sortPostsByFileOrder(
+  const allPosts = sortPostsByFileOrder(
     await getCollection("blog", ({ data }) => !data.draft)
   );
 
-  return posts.map((post) => ({
+  return allPosts.map((post) => ({
     params: { slug: post.id },
-    props: { post }
+    props: { post, allPosts }
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { post, allPosts: postsForNavigation } = Astro.props;
+const allPosts = sortPostsByFileOrder(postsForNavigation);
+const { Content, headings } = await render(post);
 const title = getPostTitle(post);
 const description = getPostDescription(post);
+const tableOfContents = headings.filter(
+  (heading) =>
+    heading.slug &&
+    heading.text !== title &&
+    heading.text !== "目录" &&
+    heading.depth > 1 &&
+    heading.depth < 4
+);
 ---
 
 <BaseLayout
@@ -35,22 +46,61 @@ const description = getPostDescription(post);
   description={description}
   ogType="article"
 >
-  <article class="article">
-    <header class="article-header">
-      <p class="eyebrow">Article</p>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <div class="article-meta">
-        <span>{getPostOrderLabel(post)}</span>
-        {post.data.tags.length > 0 && (
-          <ul class="tag-list" aria-label="标签">
-            {post.data.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
-        )}
+  <div class="article-shell">
+    <aside class="side-nav article-side-nav" aria-label="文章侧边导航">
+      {tableOfContents.length > 0 && (
+        <section>
+          <p class="side-nav-title">本文目录</p>
+          <nav>
+            {tableOfContents.map((heading) => (
+              <a
+                class:list={[
+                  "toc-link",
+                  heading.depth === 3 && "toc-link-nested"
+                ]}
+                href={`#${heading.slug}`}
+              >
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+        </section>
+      )}
+
+      <section>
+        <p class="side-nav-title">全部文章</p>
+        <nav>
+          {allPosts.map((item) => (
+            <a
+              class:list={[item.id === post.id && "is-active"]}
+              href={getPostUrl(item)}
+              aria-current={item.id === post.id ? "page" : undefined}
+            >
+              <span>{getPostOrderLabel(item)}</span>
+              {getPostTitle(item)}
+            </a>
+          ))}
+        </nav>
+      </section>
+    </aside>
+
+    <article class="article">
+      <header class="article-header">
+        <p class="eyebrow">Article</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <div class="article-meta">
+          <span>{getPostOrderLabel(post)}</span>
+          {post.data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="标签">
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </div>
+      </header>
+      <div class="content">
+        <Content />
       </div>
-    </header>
-    <div class="content">
-      <Content />
-    </div>
-  </article>
+    </article>
+  </div>
 </BaseLayout>

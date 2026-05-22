@@ -64,6 +64,8 @@ export const getPostDescription = (post: BlogPost) => {
   return paragraph ? cleanText(paragraph) : `${getPostTitle(post)} 的整理笔记。`;
 };
 
+export const getPostUrl = (post: BlogPost) => `/blog/${post.id}/`;
+
 export const sortPostsByFileOrder = (posts: BlogPost[]) =>
   [...posts].sort((a, b) => {
     const orderDiff = getPostOrder(a) - getPostOrder(b);

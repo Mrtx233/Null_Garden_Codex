@@ -5,6 +5,7 @@ import {
   getPostDescription,
   getPostOrderLabel,
   getPostTitle,
+  getPostUrl,
   sortPostsByFileOrder
 } from "../../utils/blog";
 
@@ -25,22 +26,36 @@ const posts = sortPostsByFileOrder(
     </p>
   </section>
 
-  <div class="post-list">
-    {posts.map((post) => (
-      <article class="post-card post-card-wide">
-        <div class="post-meta">
-          <span>{getPostOrderLabel(post)}</span>
-        </div>
-        <h2>
-          <a href={`/blog/${post.id}/`}>{getPostTitle(post)}</a>
-        </h2>
-        <p>{getPostDescription(post)}</p>
-        {post.data.tags.length > 0 && (
-          <ul class="tag-list" aria-label="标签">
-            {post.data.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
-        )}
-      </article>
-    ))}
+  <div class="blog-shell">
+    <aside class="side-nav blog-side-nav" aria-label="文章导航">
+      <p class="side-nav-title">文章导航</p>
+      <nav>
+        {posts.map((post) => (
+          <a href={getPostUrl(post)}>
+            <span>{getPostOrderLabel(post)}</span>
+            {getPostTitle(post)}
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="post-list">
+      {posts.map((post) => (
+        <article class="post-card post-card-wide">
+          <div class="post-meta">
+            <span>{getPostOrderLabel(post)}</span>
+          </div>
+          <h2>
+            <a href={getPostUrl(post)}>{getPostTitle(post)}</a>
+          </h2>
+          <p>{getPostDescription(post)}</p>
+          {post.data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="标签">
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
   </div>
 </BaseLayout>
