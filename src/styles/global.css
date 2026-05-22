@@ -347,7 +347,18 @@ p {
   gap: 1rem;
 }
 
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.project-grid-preview {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .post-card,
+.project-card,
 .info-card {
   padding: 1.35rem;
   border: 1px solid var(--color-line);
@@ -361,6 +372,7 @@ p {
 }
 
 .post-card:hover,
+.project-card:hover,
 .info-card:hover {
   border-color: color-mix(in srgb, var(--color-accent), var(--color-line) 42%);
   background: var(--color-surface-hover);
@@ -368,15 +380,19 @@ p {
 }
 
 .post-card h2 a,
-.post-card h3 a {
+.post-card h3 a,
+.project-card h2 a,
+.project-card h3 a {
   text-decoration: none;
 }
 
-.post-card p {
+.post-card p,
+.project-card p {
   margin-bottom: 0;
 }
 
-.post-card-wide {
+.post-card-wide,
+.project-card-wide {
   padding: 1.5rem;
 }
 
@@ -426,6 +442,18 @@ p {
 
 .article-meta .tag-list {
   margin: 0;
+}
+
+.project-link-slot {
+  margin-top: 1rem;
+  color: var(--color-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.project-link-slot a {
+  color: var(--color-accent);
+  text-decoration: none;
 }
 
 .content {
@@ -588,7 +616,9 @@ p {
 
 @media (max-width: 820px) {
   .post-grid,
-  .info-grid {
+  .info-grid,
+  .project-grid,
+  .project-grid-preview {
     grid-template-columns: 1fr;
   }
 }

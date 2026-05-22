@@ -217,5 +217,42 @@ export const fileChangeLogEntries: FileChangeLogEntry[] = [
     ],
     aiOutput:
       "已删除旧的 `dist/blog/hello-world`，并改为读取 `md/` 目录中的 6 篇 Markdown，按文件名前缀顺序生成新的博客 HTML；`npm run build` 构建通过。"
+  },
+  {
+    id: "2026-05-22-1351",
+    time: "2026-05-22 13:51",
+    userInput:
+      "根据项目中的readme文件 来编写完整的项目介绍 放在md文件夹中 并在网页中创建项目介绍分类 并预留github链接填写区域 我稍后自己填写",
+    requirementSummary:
+      "本轮用户要求根据给定的 5 份 README 内容，在项目根目录的 `md` 目录中编写完整的项目介绍 Markdown，并在网页中新增“项目介绍”分类，同时预留 GitHub 链接填写区域；影响范围为内容集合、项目介绍页面、首页入口、导航、全局样式和协作记录，不改动既有博客正文逻辑。",
+    changeSummary: [
+      "创建了 `md/projects/` 目录，并根据 5 份 README 编写了 5 篇项目介绍 Markdown。",
+      "新增了 `src/content.config.ts` 中的 `projects` 集合，单独管理项目介绍内容。",
+      "新增了 `src/utils/projects.ts`，用于按文件顺序排序并提取项目标题、描述和 GitHub 占位状态。",
+      "修改了导航与首页，新增“项目”入口和首页项目预览区。",
+      "新增了 `src/pages/projects/index.astro` 和 `src/pages/projects/[...slug].astro`，实现项目介绍分类页与详情页。",
+      "更新了全局样式，为项目卡片、项目归档页和 GitHub 占位区补充样式。",
+      "更新了 `README.md`，补充项目介绍 Markdown 的写法说明。",
+      "运行 `npm run build`，构建通过，共生成 15 个静态页面。"
+    ],
+    changedFiles: [
+      "README.md",
+      "src/content.config.ts",
+      "src/layouts/BaseLayout.astro",
+      "src/pages/index.astro",
+      "src/pages/projects/index.astro",
+      "src/pages/projects/[...slug].astro",
+      "src/styles/global.css",
+      "src/utils/projects.ts",
+      "md/projects/01-vague-search.md",
+      "md/projects/02-scrapy-official-document.md",
+      "md/projects/03-joyfit-ml.md",
+      "md/projects/04-ucan-football-management.md",
+      "md/projects/05-cosplay-verse.md",
+      "docs/ai-dev-log.md",
+      "docs/data/fileChangeLog.ts"
+    ],
+    aiOutput:
+      "已完成“项目介绍”分类和 5 篇 README 衍生的项目介绍 Markdown，项目页面与首页入口已就位，`npm run build` 构建通过；本地浏览器页面验收因浏览器策略限制未能直接打开，但构建结果已验证。"
   }
 ];

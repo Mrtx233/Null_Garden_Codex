@@ -86,3 +86,29 @@ Write the article body here.
 ```
 
 Set `draft: true` to keep a post out of the homepage, blog list, and generated article routes.
+
+## Add a Project Intro
+
+Create a new Markdown file in `md/projects/`, for example:
+
+```text
+md/projects/my-project.md
+```
+
+Use this frontmatter format:
+
+```md
+---
+title: "My Project"
+description: "A short project summary."
+githubUrl: ""
+stack:
+  - Astro
+  - Markdown
+draft: false
+---
+
+Write the project introduction here.
+```
+
+The `/projects` page and project detail routes will pick these files up automatically. Leave `githubUrl` empty if you want to fill it later.

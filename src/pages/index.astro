@@ -7,9 +7,21 @@ import {
   getPostTitle,
   sortPostsByFileOrder
 } from "../utils/blog";
+import {
+  getProjectDescription,
+  getProjectGithubLabel,
+  getProjectOrderLabel,
+  getProjectTitle,
+  getProjectUrl,
+  sortProjectsByFileOrder
+} from "../utils/projects";
 
 const posts = sortPostsByFileOrder(
   await getCollection("blog", ({ data }) => !data.draft)
+).slice(0, 3);
+
+const projects = sortProjectsByFileOrder(
+  await getCollection("projects", ({ data }) => !data.draft)
 ).slice(0, 3);
 ---
 
@@ -45,6 +57,35 @@ const posts = sortPostsByFileOrder(
           {post.data.tags.length > 0 && (
             <ul class="tag-list" aria-label="标签">
               {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Projects</p>
+        <h2>项目介绍</h2>
+      </div>
+      <a class="text-link" href="/projects/">查看全部项目</a>
+    </div>
+    <div class="project-grid project-grid-preview">
+      {projects.map((project) => (
+        <article class="project-card">
+          <div class="post-meta">
+            <span>{getProjectOrderLabel(project)}</span>
+            <span>{getProjectGithubLabel(project)}</span>
+          </div>
+          <h3>
+            <a href={getProjectUrl(project)}>{getProjectTitle(project)}</a>
+          </h3>
+          <p>{getProjectDescription(project)}</p>
+          {project.data.stack.length > 0 && (
+            <ul class="tag-list" aria-label="技术栈">
+              {project.data.stack.map((item) => <li>{item}</li>)}
             </ul>
           )}
         </article>

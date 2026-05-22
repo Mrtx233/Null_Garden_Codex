@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import {
+  getProjectDescription,
+  getProjectGithubLabel,
+  getProjectOrderLabel,
+  getProjectTitle,
+  getProjectUrl,
+  sortProjectsByFileOrder
+} from "../../utils/projects";
+
+const projects = sortProjectsByFileOrder(
+  await getCollection("projects", ({ data }) => !data.draft)
+);
+---
+
+<BaseLayout
+  title="项目 | Null Garden | LV MA"
+  description="Null Garden 的项目介绍分类。"
+>
+  <section class="page-header">
+    <p class="eyebrow">Projects</p>
+    <h1>项目介绍</h1>
+    <p>
+      这里收集我整理过的项目介绍。每个条目都来自对应仓库的 README，保留项目定位、技术栈、核心能力和 GitHub 占位区。
+    </p>
+  </section>
+
+  <div class="project-grid">
+    {projects.map((project) => (
+      <article class="project-card">
+        <div class="post-meta">
+          <span>{getProjectOrderLabel(project)}</span>
+          <span>{getProjectGithubLabel(project)}</span>
+        </div>
+        <h2>
+          <a href={getProjectUrl(project)}>{getProjectTitle(project)}</a>
+        </h2>
+        <p>{getProjectDescription(project)}</p>
+        {project.data.stack.length > 0 && (
+          <ul class="tag-list" aria-label="技术栈">
+            {project.data.stack.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+      </article>
+    ))}
+  </div>
+</BaseLayout>
