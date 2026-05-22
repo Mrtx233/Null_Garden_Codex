@@ -1,7 +1,7 @@
 ---
 title: "Vague-Search"
 description: "一个面向 Excel / WPS 表格文件的模糊搜索采集项目，重点解决搜索、下载、去重、语种识别与结果归档。"
-githubUrl: ""
+githubUrl: "https://github.com/Mrtx233/Vague-Search"
 tags:
   - Python
   - Redis
