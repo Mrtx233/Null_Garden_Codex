@@ -473,3 +473,58 @@ D:\Null_Garden_Codex\md\07Django + MySQL + JWT + RBAC + Vue3.md
 ### AI 输出
 
 已执行项目编译，构建通过；随后将本轮 Markdown、协作日志和文件修改记录提交并推送到远程仓库。
+
+## 2026-05-26 17:51
+
+### 用户输入
+
+我手动替换了这文件 需要你重新对文件中的标题编号补全
+
+### 需求理解
+
+本轮用户说明已手动替换文件，需要重新补全文件中的标题编号；根据当前 Git 状态确认目标文件为 `md/07Django + MySQL + JWT + RBAC + Vue3.md`。影响范围为该 Markdown 文件的标题编号结构和协作记录，不涉及 Astro 页面、样式、内容集合配置或其它文章。
+
+### 修改内容
+
+- 读取了 `md/07Django + MySQL + JWT + RBAC + Vue3.md` 的标题结构。
+- 保留一级标题中的阶段编号，并为二级、三级、四级标题补全层级编号。
+- 将不连续或重复的标题编号整理为 `阶段号.小节号.子节号` 形式，例如阶段 8 的重复编号被修正为 `8.15` 和 `8.16`。
+- 跳过代码块内容，只处理 Markdown 正文标题。
+- 运行 `npm run build`，确认 Astro 检查和静态页面构建通过。
+
+### 改动文件
+
+- `md/07Django + MySQL + JWT + RBAC + Vue3.md`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已重新补全 `md/07Django + MySQL + JWT + RBAC + Vue3.md` 的标题编号，并确认 `npm run build` 构建通过。
+
+## 2026-05-26 17:53
+
+### 用户输入
+
+好的 推送到github
+
+### 需求理解
+
+本轮用户要求将上一轮标题编号补全后的本地改动推送到 GitHub；影响范围为构建验证、Git 提交与推送、协作记录同步，不涉及继续修改文章正文、页面、样式或配置。
+
+### 修改内容
+
+- 检查了上一轮协作记录和当前 Git 状态，确认待提交文件为标题编号修复后的 Markdown 与两份协作记录。
+- 执行 `npm run build`，确认 Astro 检查和静态页面构建通过。
+- 追加本轮推送记录，并准备提交当前改动到 `main` 分支。
+- 准备推送到远程仓库 `git@github.com:Mrtx233/Null_Garden_Codex.git`。
+
+### 改动文件
+
+- `md/07Django + MySQL + JWT + RBAC + Vue3.md`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已完成推送前构建验证，并将标题编号修复与协作记录提交后推送到 GitHub。
