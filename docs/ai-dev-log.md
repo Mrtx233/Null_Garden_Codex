@@ -361,3 +361,115 @@ Quiet Tech Minimalism
 ### AI 输出
 
 已完成“项目介绍”分类和 5 篇 README 衍生的项目介绍 Markdown，项目页面与首页入口已就位，`npm run build` 构建通过；本地浏览器页面验收因浏览器策略限制未能直接打开，但构建结果已验证。
+
+## 2026-05-24 20:42
+
+### 用户输入
+
+D:\Null_Garden_Codex\ai-dev-rules.md
+阅读
+然后阅读已有的文件D:\Null_Garden_Codex\docs\ai-dev-log.md和D:\Null_Garden_Codex\docs\data\fileChangeLog.ts
+
+### 需求理解
+
+本轮用户要求读取项目根目录下的 `ai-dev-rules.md`，并继续阅读已有的 `docs/ai-dev-log.md` 与 `docs/data/fileChangeLog.ts`，以确认当前 AI 协作规则、历史迭代记录和结构化文件变更记录；影响范围为规则与日志阅读、协作记录追加，不涉及博客页面、组件、样式、内容或配置修改。
+
+### 修改内容
+
+- 读取了 `ai-dev-rules.md`，确认本项目每轮需求需检查上一轮记录，并在完成后同步追加 Markdown 日志与结构化文件修改记录。
+- 读取了 `docs/ai-dev-log.md`，确认上一轮“项目介绍分类”记录完整。
+- 读取了 `docs/data/fileChangeLog.ts`，确认结构化记录与 Markdown 日志保持一致。
+- 追加了本轮阅读与确认记录。
+
+### 改动文件
+
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已读取 `ai-dev-rules.md`、`docs/ai-dev-log.md` 和 `docs/data/fileChangeLog.ts`，确认上一轮记录完整，并已同步追加本轮协作记录。
+
+## 2026-05-24 21:19
+
+### 用户输入
+
+我现在的问题 页面都是通过md识别加载的吗 为什米我看到还是有D:\Null_Garden_Codex\dist\blog\01python爬虫完整系统总结\index.html文件
+
+### 需求理解
+
+本轮用户询问当前博客页面是否都是通过 `md` 目录中的 Markdown 文件识别和加载，并希望理解为什么构建目录 `dist/blog/01python爬虫完整系统总结/index.html` 仍然存在；影响范围为内容集合配置、博客列表页、博客详情页、Markdown 到静态 HTML 的构建流程说明，不涉及页面、组件、样式、内容或配置修改。
+
+### 修改内容
+
+- 读取了 `src/content.config.ts`，确认 `blog` 集合通过 `glob({ pattern: "*.md", base: "./md" })` 从根目录 `md` 中读取 Markdown。
+- 读取了 `src/pages/blog/index.astro`，确认文章列表通过 `getCollection("blog")` 获取 Markdown 内容集合。
+- 读取了 `src/pages/blog/[...slug].astro`，确认文章详情页通过 `getStaticPaths()` 为每篇 Markdown 生成静态路由，并通过 `render(post)` 渲染正文。
+- 检查了 `md/` 目录和 `dist/blog/` 目录，确认 `dist` 中的 HTML 是 `npm run build` 后生成的静态发布产物。
+- 追加了本轮解释记录。
+
+### 改动文件
+
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已解释当前博客源内容来自 `md/*.md`，而 `dist/blog/.../index.html` 是 Astro 构建后生成的静态 HTML 发布文件；开发时改 Markdown，部署时使用 `dist` 产物。
+
+## 2026-05-26 16:22
+
+### 用户输入
+
+D:\Null_Garden_Codex\md\07Django + MySQL + JWT + RBAC + Vue3.md
+对这个文件格式化修复
+
+### 需求理解
+
+本轮用户要求对 `md/07Django + MySQL + JWT + RBAC + Vue3.md` 进行 Markdown 格式化修复；影响范围为该篇博客 Markdown 的 frontmatter、标题层级、段落空行、分隔符、代码块和命令块渲染结构，以及协作记录文件，不涉及 Astro 页面组件、路由、样式或其他文章内容修改。
+
+### 修改内容
+
+- 为 `md/07Django + MySQL + JWT + RBAC + Vue3.md` 增加文章 frontmatter 和一级标题，明确标题、描述、标签和 draft 状态。
+- 将阶段标题整理为 Markdown 二级标题，将主要步骤整理为三级标题，并保留阶段 1 到阶段 9 的主线结构。
+- 拆分粘连在正文、命令、路径和分隔符上的内容，补充段落空行。
+- 将目录结构、终端命令、Python、JavaScript、Vue、SQL、配置片段等内容整理为代码块。
+- 修复少量机械格式化后的读感问题，例如时区配置代码块、后续阶段提示和最终检查清单。
+- 运行 `npm run build`，确认 Astro 检查通过并成功生成 16 个静态页面，其中包含 `/blog/07django--mysql--jwt--rbac--vue3/`。
+
+### 改动文件
+
+- `md/07Django + MySQL + JWT + RBAC + Vue3.md`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已完成 `07Django + MySQL + JWT + RBAC + Vue3.md` 的 Markdown 格式化修复，补齐文章元信息、标题层级、段落和代码块结构，并确认 `npm run build` 构建通过。
+
+## 2026-05-26 16:28
+
+### 用户输入
+
+然后帮我执行编译 最后完成推送
+
+### 需求理解
+
+本轮用户要求在上一轮 Markdown 格式化修复后执行项目编译，并将当前本地改动提交后推送到远程仓库；影响范围为构建验证、Git 提交与推送、协作记录同步，不涉及新增页面功能、样式调整或内容重写。
+
+### 修改内容
+
+- 执行 `npm run build`，完成 Astro 检查和静态页面构建。
+- 确认构建通过，`astro check` 结果为 0 errors、0 warnings、0 hints，并生成 16 个静态页面。
+- 检查当前 Git 分支为 `main`，远程仓库为 `git@github.com:Mrtx233/Null_Garden_Codex.git`。
+- 追加本轮构建与推送记录，并准备提交、推送当前改动。
+
+### 改动文件
+
+- `md/07Django + MySQL + JWT + RBAC + Vue3.md`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已执行项目编译，构建通过；随后将本轮 Markdown、协作日志和文件修改记录提交并推送到远程仓库。
