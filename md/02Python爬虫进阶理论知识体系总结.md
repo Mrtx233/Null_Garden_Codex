@@ -1,16 +1,6 @@
 # Python 爬虫进阶理论知识体系总结
 
-本文围绕 Python 爬虫进阶中的 7 个核心方向进行系统整理：
-
-```text
-1. requests
-2. Session
-3. Selenium
-4. Playwright
-5. requests / Selenium / Playwright 对比
-6. Scrapy
-7. 线程 / 进程 / 协程 / 异步
-```
+本文围绕 Python 爬虫进阶中的 7 个核心方向进行系统整理：1. requests、2. Session、3. Selenium、4. Playwright、5. requests / Selenium / Playwright 对比、6. Scrapy、7. 线程 / 进程 / 协程 / 异步
 
 ---
 

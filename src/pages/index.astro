@@ -8,6 +8,13 @@ import {
   sortPostsByFileOrder
 } from "../utils/blog";
 import {
+  getManualDescription,
+  getManualOrderLabel,
+  getManualSeriesAnchor,
+  getManualTitle,
+  groupManualsBySeries
+} from "../utils/developmentManual";
+import {
   getProjectDescription,
   getProjectGithubLabel,
   getProjectOrderLabel,
@@ -23,6 +30,10 @@ const posts = sortPostsByFileOrder(
 const projects = sortProjectsByFileOrder(
   await getCollection("projects", ({ data }) => !data.draft)
 ).slice(0, 3);
+
+const manualSeries = groupManualsBySeries(
+  await getCollection("developmentManual", ({ data }) => !data.draft)
+);
 ---
 
 <BaseLayout>
@@ -34,6 +45,7 @@ const projects = sortProjectsByFileOrder(
     </p>
     <div class="hero-actions" aria-label="主要操作">
       <a class="button button-primary" href="/blog/">阅读文章</a>
+      <a class="button button-secondary" href="/development-manual/">开发手册</a>
       <a class="button button-secondary" href="/about/">关于我</a>
     </div>
   </section>
@@ -61,6 +73,45 @@ const projects = sortProjectsByFileOrder(
           )}
         </article>
       ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Development Manual</p>
+        <h2>开发手册专栏</h2>
+      </div>
+      <a class="text-link" href="/development-manual/">查看全部手册</a>
+    </div>
+    <div class="manual-series-grid">
+      {manualSeries.map((series) => {
+        const firstManual = series.entries[0];
+        return (
+          <article class="manual-series-card">
+            <div class="post-meta">
+              <span>{series.entries.length} 篇</span>
+              {firstManual && <span>{getManualOrderLabel(firstManual)}</span>}
+            </div>
+            <h3>
+              <a href={`/development-manual/#${getManualSeriesAnchor(series.title)}`}>
+                {series.title}
+              </a>
+            </h3>
+            {firstManual && <p>{getManualDescription(firstManual)}</p>}
+            <ul class="manual-mini-list" aria-label={`${series.title} 预览`}>
+              {series.entries.slice(0, 3).map((manual) => (
+                <li>
+                  <a href={`/development-manual/${manual.id}/`}>
+                    <span>{getManualOrderLabel(manual)}</span>
+                    {getManualTitle(manual)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        );
+      })}
     </div>
   </section>
 

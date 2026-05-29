@@ -24,7 +24,18 @@ const projects = defineCollection({
   })
 });
 
+const developmentManual = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./md/Development-Manual" }),
+  schema: z.object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false)
+  })
+});
+
 export const collections = {
   blog,
-  projects
+  projects,
+  developmentManual
 };

@@ -528,3 +528,95 @@ D:\Null_Garden_Codex\md\07Django + MySQL + JWT + RBAC + Vue3.md
 ### AI 输出
 
 已完成推送前构建验证，并将标题编号修复与协作记录提交后推送到 GitHub。
+
+## 2026-05-29 22:24
+
+### 用户输入
+
+现在读取这个文件D:\Null_Garden_Codex\ai-dev-rules.md
+然后看看我之前干了什么文件夹路径在D:\Null_Garden_Codex\docs
+然后帮我重新编译这个项目 因为我做了md文件的修改
+
+### 需求理解
+
+本轮用户要求读取 `ai-dev-rules.md`，检查 `docs` 中上一轮协作记录，查看当前 Markdown 文件改动，并因 `md` 文件修改重新编译项目；影响范围为协作规则与记录检查、`md` 内容源构建验证、静态页面生成和本轮记录追加，不涉及页面样式、组件逻辑或 Markdown 正文内容调整。
+
+### 修改内容
+
+- 读取了 `ai-dev-rules.md`，确认本项目每轮需检查上一轮记录并同步追加两份协作记录。
+- 检查了 `docs/ai-dev-log.md` 和 `docs/data/fileChangeLog.ts`，确认上一轮记录字段完整。
+- 检查当前 Git 状态，确认用户将 `md/05django_rbac.md`、`md/06开发工具配置速查手册.md` 调整为 `md/05开发工具配置速查手册.md`、`md/06django_rbac.md`，用于改变文章顺序。
+- 阅读了博客内容集合、文章排序工具和文章详情页代码，确认博客仍从 `md/*.md` 读取并按文件名前缀排序生成页面。
+- 执行 `npm run build`，确认 Astro 检查和静态页面构建通过，共生成 16 个静态页面。
+
+### 改动文件
+
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已读取规则和协作记录，确认用户本次主要调整了 `md` 文章文件顺序，并已重新执行 `npm run build`，构建通过且生成 16 个静态页面。
+
+## 2026-05-29 22:50
+
+### 用户输入
+
+编译完成以后 在本地运行 给我链接 我先看看效果 载选择推送
+
+### 需求理解
+
+根据现有上下文补记：本轮用户要求在构建完成后启动本地预览服务并提供链接，用于先检查页面效果再决定是否推送；影响范围为本地开发服务启动与访问验证，不涉及代码修改、提交或推送。
+
+### 修改内容
+
+- 尝试通过 `npm run dev -- --host 127.0.0.1 --port 4321` 启动本地预览服务。
+- 确认 PowerShell 直接运行 `npm` 会触发脚本执行策略限制，改用 `npm.cmd` 可正常启动 Astro 开发服务。
+- 该轮在后台服务启动排查过程中被用户主动打断，因此未完成最终链接交付，也未执行推送。
+
+### 改动文件
+
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+根据现有上下文补记：已尝试启动本地预览服务，确认 `npm.cmd run dev` 可进入 Astro 开发服务，但该轮被用户打断，未完成链接交付或推送。
+
+## 2026-05-29 23:06
+
+### 用户输入
+
+我现在想新增一个板块 md文件我放在了这里 D:\Null_Garden_Codex\md\Development-Manual
+然后还有一层文件夹 里面有很多md文件 希望是一个专栏的形式 你来改代码 解决一下这个问题
+
+### 需求理解
+
+本轮用户要求将 `md/Development-Manual` 下按子文件夹组织的多篇 Markdown 接入网站，作为独立“开发手册”专栏展示；影响范围为 Astro Content Collections、专栏首页、专栏详情页、首页入口、导航和相关样式，不改动用户放入的 Markdown 正文内容，也不执行提交或推送。
+
+### 修改内容
+
+- 新增 `developmentManual` 内容集合，递归读取 `md/Development-Manual/**/*.md`。
+- 新增开发手册工具函数，用于按子文件夹分组、按阶段号排序、从原始 `filePath` 还原中文系列名和标题，并生成详情页链接。
+- 新增 `/development-manual/` 专栏首页，按 Django 和 Flask 等子文件夹分组展示多篇 Markdown。
+- 新增 `/development-manual/[...slug]` 详情页，渲染每篇 Markdown，并提供本文目录和当前系列侧边导航。
+- 修改站点导航和首页，加入“手册/开发手册”入口。
+- 补充专栏卡片、系列列表、移动端布局等样式，并清理上轮预览尝试留下的临时日志文件。
+- 执行 `npm run build`，确认 Astro 检查通过，生成 44 个静态页面。
+- 使用本地静态预览验证专栏首页和详情页，确认原始中文标题、系列导航和目录显示正常。
+
+### 改动文件
+
+- `src/content.config.ts`
+- `src/utils/developmentManual.ts`
+- `src/pages/development-manual/index.astro`
+- `src/pages/development-manual/[...slug].astro`
+- `src/layouts/BaseLayout.astro`
+- `src/pages/index.astro`
+- `src/styles/global.css`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已新增“开发手册”专栏，递归接入 `md/Development-Manual` 下多层 Markdown，完成专栏首页、详情页、导航和首页入口；构建通过并已本地验证页面显示正常，等待用户预览后再决定是否推送。

@@ -1,0 +1,114 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import {
+  getManualDescription,
+  getManualOrderLabel,
+  getManualSeriesTitle,
+  getManualTitle,
+  getManualUrl,
+  groupManualsBySeries,
+  sortManualsBySeriesOrder
+} from "../../utils/developmentManual";
+
+interface Props {
+  manual: CollectionEntry<"developmentManual">;
+  allManuals: CollectionEntry<"developmentManual">[];
+}
+
+export async function getStaticPaths() {
+  const allManuals = sortManualsBySeriesOrder(
+    await getCollection("developmentManual", ({ data }) => !data.draft)
+  );
+
+  return allManuals.map((manual) => ({
+    params: { slug: manual.id },
+    props: { manual, allManuals }
+  }));
+}
+
+const { manual, allManuals } = Astro.props;
+const { Content, headings } = await render(manual);
+const title = getManualTitle(manual);
+const description = getManualDescription(manual);
+const currentSeriesTitle = getManualSeriesTitle(manual);
+const currentSeries = groupManualsBySeries(allManuals).find(
+  (series) => series.title === currentSeriesTitle
+);
+const tableOfContents = headings.filter(
+  (heading) =>
+    heading.slug &&
+    heading.text !== title &&
+    heading.text !== "目录" &&
+    heading.depth > 1 &&
+    heading.depth < 4
+);
+---
+
+<BaseLayout
+  title={`${title} | 开发手册 | Null Garden | LV MA`}
+  description={description}
+  ogType="article"
+>
+  <div class="article-shell">
+    <aside class="side-nav manual-side-nav" aria-label="开发手册侧边导航">
+      {tableOfContents.length > 0 && (
+        <section>
+          <p class="side-nav-title">本文目录</p>
+          <nav>
+            {tableOfContents.map((heading) => (
+              <a
+                class:list={[
+                  "toc-link",
+                  heading.depth === 3 && "toc-link-nested"
+                ]}
+                href={`#${heading.slug}`}
+              >
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+        </section>
+      )}
+
+      {currentSeries && (
+        <section>
+          <p class="side-nav-title">{currentSeries.title}</p>
+          <nav>
+            {currentSeries.entries.map((item) => (
+              <a
+                class:list={[item.id === manual.id && "is-active"]}
+                href={getManualUrl(item)}
+                aria-current={item.id === manual.id ? "page" : undefined}
+              >
+                <span>{getManualOrderLabel(item)}</span>
+                {getManualTitle(item)}
+              </a>
+            ))}
+          </nav>
+        </section>
+      )}
+    </aside>
+
+    <article class="article">
+      <header class="article-header">
+        <p class="eyebrow">Development Manual</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <div class="article-meta">
+          <span>{currentSeriesTitle}</span>
+          <span>{getManualOrderLabel(manual)}</span>
+          {manual.data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="标签">
+              {manual.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </div>
+      </header>
+      <div class="content">
+        <Content />
+      </div>
+    </article>
+  </div>
+</BaseLayout>

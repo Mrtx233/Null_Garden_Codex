@@ -266,13 +266,15 @@ p {
 }
 
 .blog-shell,
-.article-shell {
+.article-shell,
+.manual-shell {
   display: grid;
   align-items: start;
   gap: 2.25rem;
 }
 
-.blog-shell {
+.blog-shell,
+.manual-shell {
   grid-template-columns: minmax(13rem, 16rem) minmax(0, 1fr);
 }
 
@@ -357,8 +359,30 @@ p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.manual-series-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.manual-series-list {
+  display: grid;
+  gap: 3rem;
+}
+
+.manual-series-section {
+  scroll-margin-top: 1.5rem;
+}
+
+.manual-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
 .post-card,
 .project-card,
+.manual-card,
+.manual-series-card,
 .info-card {
   padding: 1.35rem;
   border: 1px solid var(--color-line);
@@ -373,6 +397,8 @@ p {
 
 .post-card:hover,
 .project-card:hover,
+.manual-card:hover,
+.manual-series-card:hover,
 .info-card:hover {
   border-color: color-mix(in srgb, var(--color-accent), var(--color-line) 42%);
   background: var(--color-surface-hover);
@@ -382,17 +408,22 @@ p {
 .post-card h2 a,
 .post-card h3 a,
 .project-card h2 a,
-.project-card h3 a {
+.project-card h3 a,
+.manual-card h3 a,
+.manual-series-card h3 a {
   text-decoration: none;
 }
 
 .post-card p,
-.project-card p {
+.project-card p,
+.manual-card p,
+.manual-series-card p {
   margin-bottom: 0;
 }
 
 .post-card-wide,
-.project-card-wide {
+.project-card-wide,
+.manual-card-wide {
   padding: 1.5rem;
 }
 
@@ -422,6 +453,33 @@ p {
   background: var(--color-accent-soft);
   color: var(--color-muted);
   font-size: 0.85rem;
+}
+
+.manual-mini-list {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 0 0;
+  margin: 1rem 0 0;
+  border-top: 1px solid var(--color-line);
+  list-style: none;
+}
+
+.manual-mini-list a {
+  display: grid;
+  gap: 0.15rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.manual-mini-list a:hover {
+  color: var(--color-text);
+}
+
+.manual-mini-list span {
+  color: var(--color-subtle);
+  font-size: 0.76rem;
 }
 
 .article {
@@ -584,6 +642,8 @@ p {
   }
 
   .post-card,
+  .manual-card,
+  .manual-series-card,
   .info-card,
   .post-card-wide {
     padding: 1rem;
@@ -592,7 +652,8 @@ p {
 
 @media (max-width: 980px) {
   .blog-shell,
-  .article-shell {
+  .article-shell,
+  .manual-shell {
     grid-template-columns: 1fr;
   }
 
@@ -618,7 +679,8 @@ p {
   .post-grid,
   .info-grid,
   .project-grid,
-  .project-grid-preview {
+  .project-grid-preview,
+  .manual-series-grid {
     grid-template-columns: 1fr;
   }
 }

@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import {
+  getManualDescription,
+  getManualOrderLabel,
+  getManualSeriesAnchor,
+  getManualTitle,
+  getManualUrl,
+  groupManualsBySeries
+} from "../../utils/developmentManual";
+
+const manualSeries = groupManualsBySeries(
+  await getCollection("developmentManual", ({ data }) => !data.draft)
+);
+---
+
+<BaseLayout
+  title="开发手册 | Null Garden | LV MA"
+  description="Null Garden 的开发手册专栏，按系统阶段开发计划分组整理。"
+>
+  <section class="page-header">
+    <p class="eyebrow">Development Manual</p>
+    <h1>开发手册</h1>
+    <p>
+      这里按专栏整理阶段式开发文档。每个子文件夹是一条开发路线，文件名中的阶段号决定阅读顺序。
+    </p>
+  </section>
+
+  <div class="manual-shell">
+    <aside class="side-nav manual-side-nav" aria-label="开发手册导航">
+      <p class="side-nav-title">专栏导航</p>
+      <nav>
+        {manualSeries.map((series) => (
+          <a href={`#${getManualSeriesAnchor(series.title)}`}>
+            <span>{series.entries.length} 篇</span>
+            {series.title}
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="manual-series-list">
+      {manualSeries.map((series) => (
+        <section
+          class="manual-series-section"
+          id={getManualSeriesAnchor(series.title)}
+        >
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">{series.entries.length} Manuals</p>
+              <h2>{series.title}</h2>
+            </div>
+          </div>
+          <div class="manual-list">
+            {series.entries.map((manual) => (
+              <article class="manual-card">
+                <div class="post-meta">
+                  <span>{getManualOrderLabel(manual)}</span>
+                </div>
+                <h3>
+                  <a href={getManualUrl(manual)}>{getManualTitle(manual)}</a>
+                </h3>
+                <p>{getManualDescription(manual)}</p>
+                {manual.data.tags.length > 0 && (
+                  <ul class="tag-list" aria-label="标签">
+                    {manual.data.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
