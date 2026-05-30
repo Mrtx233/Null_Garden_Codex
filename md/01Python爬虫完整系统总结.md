@@ -1,7 +1,4 @@
 # Python 爬虫完整系统总结
-
-本文系统整理 Python 爬虫的完整知识链路，包括网页加载流程、数据来源判断、DevTools 抓包、HTTP 协议、`requests` 请求、Cookie / Session、HTML / JSON 解析、并发提速、数据存储和常用代码模板。
-
 ---
 
 ## 目录
