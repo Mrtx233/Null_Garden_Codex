@@ -25,11 +25,11 @@ import {
 
 const posts = sortPostsByFileOrder(
   await getCollection("blog", ({ data }) => !data.draft)
-).slice(0, 3);
+).slice(0, 6);
 
 const projects = sortProjectsByFileOrder(
   await getCollection("projects", ({ data }) => !data.draft)
-).slice(0, 3);
+).slice(0, 6);
 
 const manualSeries = groupManualsBySeries(
   await getCollection("developmentManual", ({ data }) => !data.draft)
@@ -103,7 +103,6 @@ const manualSeries = groupManualsBySeries(
               {series.entries.slice(0, 3).map((manual) => (
                 <li>
                   <a href={`/development-manual/${manual.id}/`}>
-                    <span>{getManualOrderLabel(manual)}</span>
                     {getManualTitle(manual)}
                   </a>
                 </li>

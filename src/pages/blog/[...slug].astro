@@ -36,6 +36,7 @@ const tableOfContents = headings.filter(
     heading.slug &&
     heading.text !== title &&
     heading.text !== "目录" &&
+    heading.text !== "Table of Contents" &&
     heading.depth > 1 &&
     heading.depth < 4
 );

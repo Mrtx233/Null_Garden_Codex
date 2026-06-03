@@ -41,6 +41,7 @@
 
 html {
   font-family: var(--font-body);
+  font-size: 18px;
   background: var(--color-bg);
   color: var(--color-text);
   scroll-behavior: smooth;
@@ -68,14 +69,19 @@ a:hover {
 }
 
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  width: min(100% - 2rem, 1280px);
-  margin: 0 auto;
-  padding: 1.35rem 0;
+  width: 100%;
+  padding: 1.35rem max(1.5rem, calc((100% - 1760px) / 2));
   border-bottom: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .site-title {
@@ -126,7 +132,7 @@ a:hover {
 }
 
 .site-main {
-  width: min(100% - 2rem, 1280px);
+  width: min(100% - 3rem, 1760px);
   margin: 0 auto;
   padding: 5rem 0 6rem;
 }
@@ -483,7 +489,7 @@ p {
 }
 
 .article {
-  width: min(100%, 880px);
+  width: 100%;
   min-width: 0;
 }
 
@@ -494,8 +500,8 @@ p {
 }
 
 .article-header h1 {
-  font-size: 4.2rem;
-  line-height: 1.08;
+  font-size: 2.4rem;
+  line-height: 1.15;
 }
 
 .article-meta .tag-list {
@@ -533,6 +539,18 @@ p {
   display: none;
 }
 
+.content > hr:first-of-type {
+  display: none;
+}
+
+.content > h2:first-of-type {
+  display: none;
+}
+
+.content > h2:first-of-type + ol {
+  display: none;
+}
+
 .content a {
   color: var(--color-accent);
 }
@@ -559,6 +577,39 @@ p {
   padding: 0;
   border: 0;
   background: transparent;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.4rem;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 160ms ease, background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.content pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+.copy-btn.is-copied {
+  opacity: 1;
+  background: var(--color-accent);
+  color: #120a24;
+  border-color: var(--color-accent);
 }
 
 .info-grid {
@@ -590,7 +641,7 @@ p {
 }
 
 .site-footer {
-  width: min(100% - 2rem, 1280px);
+  width: min(100% - 3rem, 1760px);
   margin: 0 auto;
   padding: 1.5rem 0 2rem;
   border-top: 1px solid var(--color-line);
