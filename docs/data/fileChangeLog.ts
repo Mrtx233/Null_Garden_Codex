@@ -437,5 +437,26 @@ export const fileChangeLogEntries: FileChangeLogEntry[] = [
     ],
     aiOutput:
       "已新增“开发手册”专栏，递归接入 `md/Development-Manual` 下多层 Markdown，完成专栏首页、详情页、导航和首页入口；构建通过并已本地验证页面显示正常，等待用户预览后再决定是否推送。"
-  }
+  },
+  {
+    id: "2026-06-06-1104",
+    time: "2026-06-06 11:04",
+    userInput:
+      "我现在需要修改关于我页面。提供简历 PDF，将详细简历信息更新到关于我页面，采用个人品牌风格，只展示邮箱联系方式。后续追加：新增 FastAPI+Vue3 项目、Tech Stack 补充 FastAPI/Django、样式调整。",
+    requirementSummary:
+      "将真实简历信息更新到\u201c关于我\u201d页面，包含 Tech Stack、Experience、Projects、Contact 四个板块，后续新增项目和调整布局。",
+    changeSummary: [
+      "重写 `src/pages/about.astro`，组织为技能卡片、时间线、项目卡片和联系方式四个板块。",
+      "修改 `src/styles/global.css`，新增 about 页面专属样式并调整布局宽度至 1100px、技能网格改为两列。",
+      "新增 FastAPI + Vue3 健身管理系统项目卡片，Tech Stack 补充 FastAPI 和 Django。"
+    ],
+    changedFiles: [
+      "src/pages/about.astro",
+      "src/styles/global.css",
+      "docs/ai-dev-log.md",
+      "docs/data/fileChangeLog.ts"
+    ],
+    aiOutput:
+      "已将简历信息以个人品牌风格更新到\u201c关于我\u201d页面，包含技术栈、职业经历时间线、三个项目亮点和联系方式；构建通过并已推送。"
+  },
 ];

@@ -4,42 +4,103 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="关于我 | Null Garden | LV MA"
-  description="关于 LV MA 和 Null Garden。"
+  description="马缕，Python 工程师，专注数据采集、异步爬虫框架设计与数据自动化处理。"
 >
   <section class="page-header">
     <p class="eyebrow">About</p>
     <h1>关于我</h1>
     <p>
-      你好，我是 LV MA。Null Garden 是我长期整理想法的地方，记录技术学习、AI 工具使用、项目实践、产品观察，以及一些还没有完全成形的个人思考。
+      你好，我是马缕（LV MA）。Null Garden 用于归档日常技术积累、实战项目与成长思考。主攻 Python 数据采集与后端工程开发，具备多站点爬虫框架自研、异步调度优化实战经验，聚焦 AI 自动化、数据工程方向的技术落地与迭代。
     </p>
   </section>
 
-  <section class="info-grid" aria-label="个人信息">
-    <article class="info-card">
-      <p class="eyebrow">Profile</p>
-      <h2>一个安静的记录系统</h2>
-      <p>
-        我希望这里像一块低噪声的工作台：不追热点，不堆装饰，把问题、过程和结论慢慢写清楚。
-      </p>
-    </article>
+  <div class="about-sections">
+    <section>
+      <p class="about-section-title">Tech Stack</p>
+      <div class="skill-grid">
+      <article class="info-card skill-group">
+          <h3>后端开发</h3>
+          <p>熟练使用 FastAPI、Django 两大主流 Python 后端框架，基于 ORM 完成 MySQL 数据表设计与业务接口封装；熟练使用 JWT 实现接口鉴权、RBAC 权限管控，可独立搭建前后端分离项目，完成 Linux 服务器部署、Nginx 反向代理配置与项目上线运维。</p>
+        </article>
+        <article class="info-card skill-group">
+          <h3>爬虫开发</h3>
+          <p>精通 Python 爬虫技术，熟练使用 Scrapy 框架与 DrissionPage 自动化采集，掌握 XPath、Regex 数据解析，能独立设计多站点通用采集框架。擅长 asyncio + aiohttp 异步协程开发。</p>
+        </article>
+        <article class="info-card skill-group">
+          <h3>数据处理</h3>
+          <p>熟练使用 Redis 实现 URL/MD5 双重去重与断点续跑，支持多机进度共享。会用 openpyxl/xlrd、python-docx 处理 Excel/Word 文件，完成文本抽取、分类归档与结构化输出。</p>
+        </article>
+        <article class="info-card skill-group">
+          <h3>辅助技术</h3>
+          <p>掌握 FastText 语种识别、雪花 ID 分布式唯一 ID 分配。熟悉 FastAPI 和 Django 后端框架，能独立完成全栈项目开发。熟悉 MySQL、Linux，能独立完成 Python 服务器环境搭建与部署。具备基础机器学习模型搭建与调优能力。</p>
+        </article>
+      </div>
+    </section>
 
-    <article class="info-card">
-      <p class="eyebrow">Focus</p>
-      <h2>关注方向</h2>
-      <ul class="plain-list">
-        <li>前端工程与现代 Web 开发</li>
-        <li>AI 工具、提示词和自动化工作流</li>
-        <li>个人项目复盘与产品细节观察</li>
-        <li>长期学习方法和知识管理</li>
-      </ul>
-    </article>
+    <section>
+      <p class="about-section-title">Experience</p>
+      <div class="timeline">
+        <div class="timeline-entry">
+          <span class="timeline-range">2025.06 — 2026.04</span>
+          <h3>武汉金山软件有限公司</h3>
+          <span class="timeline-role">爬虫工程师</span>
+          <p>基于 Python + Scrapy 框架设计多线程自动化采集工具，配置 IP 代理池突破反爬限制。设计数据采集—清洗—存储全流程自动化调度体系，搭建数据质量监控看板。搭建结构化数据存储库与权限管控体系，为 AI 模型训练提供稳定数据支撑。</p>
+        </div>
+        <div class="timeline-entry">
+          <span class="timeline-range">2024.09 — 2026.06</span>
+          <h3>武汉生物工程学院</h3>
+          <span class="timeline-role">计算机科学与技术 · 本科</span>
+          <p>主修算法设计、软件工程、设计模式、数据结构、数据库原理等核心课程。基于 Python 实现机器学习模型搭建与训练，掌握模型调优基础方法。</p>
+        </div>
+        <div class="timeline-entry">
+          <span class="timeline-range">2021.09 — 2024.06</span>
+          <h3>武汉职业技术学院</h3>
+          <span class="timeline-role">软件技术 · 专科</span>
+          <p>专业排名 34/243，获学院笃学奖学金。系统学习 Python 爬虫、JavaWeb、MySQL、Linux 等技术。2023 年通过全国计算机技术与软件专业技术资格考试，取得初级程序员证书。</p>
+        </div>
+      </div>
+    </section>
 
-    <article class="info-card">
-      <p class="eyebrow">Contact</p>
-      <h2>联系方式</h2>
-      <p>
-        mrtx0505@gmail.com
-      </p>
-    </article>
-  </section>
+    <section>
+      <p class="about-section-title">Projects</p>
+      <div class="project-grid-about">
+        <article class="info-card">
+          <h3>Google 模糊搜索文件采集与语种归档系统</h3>
+          <p>基于 asyncio/aiohttp 异步并发下载，Redis 双重去重与断点续跑，FastText 语种识别与自动归档。实现从关键词检索到文件归档的全链路自动化。</p>
+          <div class="project-link-slot">
+            <a href="https://github.com/Mrtx233/Vague-Search" target="_blank" rel="noopener">github.com/Mrtx233/Vague-Search</a>
+          </div>
+        </article>
+        <article class="info-card">
+          <h3>政务信息采集平台（Scrapy 多站点）</h3>
+          <p>开发通用爬虫基类，实现"通用框架 + 站点配置"快速适配模式。编写 1300+ 行自定义 Pipeline，接入雪花 ID 分配方案，覆盖科技系统政府网站多栏目数据采集。</p>
+          <div class="project-link-slot">
+            <a href="https://github.com/Mrtx233/Scrapy_Official_Document" target="_blank" rel="noopener">github.com/Mrtx233/Scrapy_Official_Document</a>
+          </div>
+        </article>
+        <article class="info-card">
+          <h3>FastAPI + Vue3 健身管理系统</h3>
+          <p>基于 FastAPI + SQLAlchemy 2.0 异步 ORM 与 Vue3 + Element Plus 的全栈系统 Demo，模块化架构覆盖 16 张业务表。实现 JWT 认证、RBAC 细粒度权限控制与 AES-256-CBC 响应体加密传输。</p>
+          <div class="project-link-slot">
+            <a href="https://github.com/Mrtx233/FastAPI-Vue3-Iteration" target="_blank" rel="noopener">github.com/Mrtx233/FastAPI-Vue3-Iteration</a>
+          </div>
+        </article>
+        <article class="info-card">
+          <h3>Spring + Vue3 JoyFit 乐练健身管理系统</h3>
+          <p>JoyFit 是一个面向连锁健身门店的前后端分离管理系统，覆盖官网展示、会员注册登录、门店查询、动作库、课程库、论坛互动、个人中心、店长排课与管理员后台数据维护等场景。项目包含 Spring Boot 后端、Vue 3 前端、MySQL 数据库脚本，以及完整的 UML、原型图和测试截图资料。</p>
+          <div class="project-link-slot">
+            <a href="https://github.com/Mrtx233/JoyFit_ml" target="_blank" rel="noopener">github.com/Mrtx233/FastAPI-Vue3-Iteration</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <p class="about-section-title">Contact</p>
+      <article class="info-card">
+        <h3>联系方式</h3>
+        <p><a class="contact-link" href="mailto:2543035755@qq.com">2543035755@qq.com</a></p>
+      </article>
+    </section>
+  </div>
 </BaseLayout>

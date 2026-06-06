@@ -620,3 +620,33 @@ D:\Null_Garden_Codex\md\07Django + MySQL + JWT + RBAC + Vue3.md
 ### AI 输出
 
 已新增“开发手册”专栏，递归接入 `md/Development-Manual` 下多层 Markdown，完成专栏首页、详情页、导航和首页入口；构建通过并已本地验证页面显示正常，等待用户预览后再决定是否推送。
+
+## 2026-06-06 11:04
+
+### 用户输入
+
+我现在需要修改关于我页面。提供简历 PDF，将详细简历信息更新到关于我页面，采用个人品牌风格，只展示邮箱联系方式。
+
+### 需求理解
+
+本轮用户要求将真实简历信息（马缕，Python 爬虫工程师）更新到"关于我"页面；影响范围为 `src/pages/about.astro` 页面内容重写和 `src/styles/global.css` 新增关于页专属样式（时间线、技能网格、项目卡片等），以及协作记录文件追加。不涉及博客、项目介绍、开发手册等其他页面修改。
+
+### 修改内容
+
+- 提取了用户简历 PDF 内容，获取完整个人信息、技能、教育经历、工作经历和项目经历。
+- 重写了 `src/pages/about.astro`，将页面组织为 Tech Stack（技能卡片）、Experience（时间线：工作经历 + 教育经历）、Projects（项目卡片含 GitHub 链接）和 Contact（仅展示邮箱）四个板块。
+- 修改了 `src/styles/global.css`，新增 `.about-sections`、`.skill-grid`、`.timeline`、`.project-grid-about` 等样式类，并补充移动端响应式适配。
+- 新增 FastAPI + Vue3 健身管理系统项目卡片，Tech Stack 补充 FastAPI 和 Django。
+- 调整 `.about-sections` 最大宽度至 1100px，`.skill-grid` 改为两列布局。
+- 运行 `npm run build`，确认 Astro 检查通过。
+
+### 改动文件
+
+- `src/pages/about.astro`
+- `src/styles/global.css`
+- `docs/ai-dev-log.md`
+- `docs/data/fileChangeLog.ts`
+
+### AI 输出
+
+已将简历信息以个人品牌风格更新到"关于我"页面，包含技术栈（两行两列）、职业经历时间线、三个项目亮点和联系方式（仅邮箱）；调整页面宽度和网格布局；`npm run build` 构建通过。
