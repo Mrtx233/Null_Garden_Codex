@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import {
+  getPostDescription,
+  getPostOrderLabel,
+  getPostTitle,
+  getPostUrl,
+  sortPostsByFileOrder
+} from "../../utils/blog";
+
+const posts = sortPostsByFileOrder(
+  await getCollection("blog", ({ data }) => !data.draft)
+);
+---
+
+<BaseLayout
+  title="文章 | Null Garden | LV MA"
+  description="Null Garden 的全部非草稿文章。"
+>
+  <section class="page-header">
+    <p class="eyebrow">Blog</p>
+    <h1>文章</h1>
+    <p>
+      技术学习、AI 工具、项目实践、产品思考和个人观察都会慢慢整理在这里。
+    </p>
+  </section>
+
+  <div class="blog-shell">
+    <aside class="side-nav blog-side-nav" aria-label="文章导航">
+      <p class="side-nav-title">文章导航</p>
+      <nav>
+        {posts.map((post) => (
+          <a href={getPostUrl(post)}>
+            <span>{getPostOrderLabel(post)}</span>
+            {getPostTitle(post)}
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="post-list">
+      {posts.map((post) => (
+        <article class="post-card post-card-wide">
+          <div class="post-meta">
+            <span>{getPostOrderLabel(post)}</span>
+          </div>
+          <h2>
+            <a href={getPostUrl(post)}>{getPostTitle(post)}</a>
+          </h2>
+          <p>{getPostDescription(post)}</p>
+          {post.data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="标签">
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

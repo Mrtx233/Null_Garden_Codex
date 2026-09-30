@@ -1,0 +1,131 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: "website" | "article";
+}
+
+const {
+  title = "Null Garden | LV MA",
+  description = "你好，我是 LV MA。这里是 Null Garden，一个记录技术、AI 工具、项目实践和个人思考的地方。",
+  ogType = "website"
+} = Astro.props;
+
+const canonicalUrl = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url
+).toString();
+---
+
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-title" href="/">Null Garden_</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/">首页</a>
+        <a href="/blog/">文章</a>
+        <a href="/development-manual/">手册</a>
+        <a href="/projects/">项目</a>
+        <a href="/about/">关于</a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="切换浅色模式">
+        ◐
+      </button>
+    </header>
+    <main class="site-main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>Null Garden | LV MA</p>
+    </footer>
+    <script is:inline>
+      const storedTheme = localStorage.getItem("theme");
+      const themeToggle = document.querySelector(".theme-toggle");
+
+      if (storedTheme === "light" || storedTheme === "dark") {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+
+      const syncThemeLabel = () => {
+        const isLight = document.documentElement.dataset.theme === "light";
+        themeToggle?.setAttribute(
+          "aria-label",
+          isLight ? "切换深色模式" : "切换浅色模式"
+        );
+      };
+
+      syncThemeLabel();
+
+      themeToggle?.addEventListener("click", () => {
+        const nextTheme =
+          document.documentElement.dataset.theme === "light" ? "dark" : "light";
+        document.documentElement.dataset.theme = nextTheme;
+        localStorage.setItem("theme", nextTheme);
+        syncThemeLabel();
+      });
+    </script>
+    <script is:inline>
+      document.querySelectorAll(".content pre").forEach((pre) => {
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.className = "copy-btn";
+        btn.type = "button";
+        btn.textContent = "复制";
+        btn.setAttribute("aria-label", "复制代码");
+        btn.addEventListener("click", () => {
+          const code =
+            pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
+          navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = "已复制";
+            btn.classList.add("is-copied");
+            setTimeout(() => {
+              btn.textContent = "复制";
+              btn.classList.remove("is-copied");
+            }, 2000);
+          });
+        });
+        pre.appendChild(btn);
+      });
+
+      const tocLinks = [...document.querySelectorAll(".side-nav .toc-link")];
+      const tocHeadings = tocLinks
+        .map((link) => {
+          const id = decodeURIComponent(link.hash.replace(/^#/, ""));
+          return id ? document.getElementById(id) : null;
+        })
+        .filter(Boolean);
+
+      const syncActiveToc = () => {
+        if (!tocHeadings.length) return;
+        let current = tocHeadings[0];
+        for (const heading of tocHeadings) {
+          if (heading.getBoundingClientRect().top <= 120) current = heading;
+        }
+        tocLinks.forEach((link) => {
+          const id = decodeURIComponent(link.hash.replace(/^#/, ""));
+          link.classList.toggle("is-current", current?.id === id);
+        });
+      };
+
+      if (tocHeadings.length) {
+        syncActiveToc();
+        window.addEventListener("scroll", syncActiveToc, { passive: true });
+      }
+    </script>
+  </body>
+</html>

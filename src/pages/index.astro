@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import {
+  getPostDescription,
+  getPostOrderLabel,
+  getPostTitle,
+  sortPostsByFileOrder
+} from "../utils/blog";
+import {
+  getManualDescription,
+  getManualOrderLabel,
+  getManualSeriesAnchor,
+  getManualTitle,
+  groupManualsBySeries
+} from "../utils/developmentManual";
+import {
+  getProjectDescription,
+  getProjectGithubLabel,
+  getProjectOrderLabel,
+  getProjectTitle,
+  getProjectUrl,
+  sortProjectsByFileOrder
+} from "../utils/projects";
+
+const posts = sortPostsByFileOrder(
+  await getCollection("blog", ({ data }) => !data.draft)
+).slice(0, 6);
+
+const projects = sortProjectsByFileOrder(
+  await getCollection("projects", ({ data }) => !data.draft)
+).slice(0, 6);
+
+const manualSeries = groupManualsBySeries(
+  await getCollection("developmentManual", ({ data }) => !data.draft)
+);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <p class="eyebrow">Null Garden | LV MA</p>
+    <h1>在空白处种下想法。</h1>
+    <p>
+      你好，我是 LV MA。这里是 Null Garden，一个记录技术、AI 工具、项目实践和个人思考的地方。
+    </p>
+    <div class="hero-actions" aria-label="主要操作">
+      <a class="button button-primary" href="/blog/">阅读文章</a>
+      <a class="button button-secondary" href="/development-manual/">开发手册</a>
+      <a class="button button-secondary" href="/about/">关于我</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Latest Notes</p>
+        <h2>最新文章</h2>
+      </div>
+      <a class="text-link" href="/blog/">查看全部</a>
+    </div>
+    <div class="post-grid">
+      {posts.map((post) => (
+        <article class="post-card">
+          <p class="post-date">{getPostOrderLabel(post)}</p>
+          <h3>
+            <a href={`/blog/${post.id}/`}>{getPostTitle(post)}</a>
+          </h3>
+          <p>{getPostDescription(post)}</p>
+          {post.data.tags.length > 0 && (
+            <ul class="tag-list" aria-label="标签">
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Development Manual</p>
+        <h2>开发手册专栏</h2>
+      </div>
+      <a class="text-link" href="/development-manual/">查看全部手册</a>
+    </div>
+    <div class="manual-series-grid">
+      {manualSeries.map((series) => {
+        const firstManual = series.entries[0];
+        return (
+          <article class="manual-series-card">
+            <div class="post-meta">
+              <span>{series.entries.length} 篇</span>
+              {firstManual && <span>{getManualOrderLabel(firstManual)}</span>}
+            </div>
+            <h3>
+              <a href={`/development-manual/#${getManualSeriesAnchor(series.title)}`}>
+                {series.title}
+              </a>
+            </h3>
+            {firstManual && <p>{getManualDescription(firstManual)}</p>}
+            <ul class="manual-mini-list" aria-label={`${series.title} 预览`}>
+              {series.entries.slice(0, 3).map((manual) => (
+                <li>
+                  <a href={`/development-manual/${manual.id}/`}>
+                    {getManualTitle(manual)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Projects</p>
+        <h2>项目介绍</h2>
+      </div>
+      <a class="text-link" href="/projects/">查看全部项目</a>
+    </div>
+    <div class="project-grid project-grid-preview">
+      {projects.map((project) => (
+        <article class="project-card">
+          <div class="post-meta">
+            <span>{getProjectOrderLabel(project)}</span>
+            <span>{getProjectGithubLabel(project)}</span>
+          </div>
+          <h3>
+            <a href={getProjectUrl(project)}>{getProjectTitle(project)}</a>
+          </h3>
+          <p>{getProjectDescription(project)}</p>
+          {project.data.stack.length > 0 && (
+            <ul class="tag-list" aria-label="技术栈">
+              {project.data.stack.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

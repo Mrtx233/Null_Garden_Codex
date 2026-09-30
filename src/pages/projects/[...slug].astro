@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import {
+  getProjectDescription,
+  getProjectGithubLabel,
+  getProjectOrderLabel,
+  getProjectTitle,
+  getProjectUrl,
+  sortProjectsByFileOrder
+} from "../../utils/projects";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  allProjects: CollectionEntry<"projects">[];
+}
+
+export async function getStaticPaths() {
+  const allProjects = sortProjectsByFileOrder(
+    await getCollection("projects", ({ data }) => !data.draft)
+  );
+
+  return allProjects.map((project) => ({
+    params: { slug: project.id },
+    props: { project, allProjects }
+  }));
+}
+
+const { project, allProjects } = Astro.props;
+const { Content, headings } = await render(project);
+const title = getProjectTitle(project);
+const description = getProjectDescription(project);
+const tableOfContents = headings.filter(
+  (heading) => heading.slug && heading.depth > 1 && heading.depth < 4
+);
+---
+
+<BaseLayout
+  title={`${title} | Null Garden | LV MA`}
+  description={description}
+  ogType="article"
+>
+  <div class="article-shell">
+    <aside class="side-nav project-side-nav" aria-label="项目侧边导航">
+      {tableOfContents.length > 0 && (
+        <section>
+          <p class="side-nav-title">项目目录</p>
+          <nav>
+            {tableOfContents.map((heading) => (
+              <a
+                class:list={[
+                  "toc-link",
+                  heading.depth === 3 && "toc-link-nested"
+                ]}
+                href={`#${heading.slug}`}
+              >
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+        </section>
+      )}
+
+      <section>
+        <p class="side-nav-title">全部项目</p>
+        <nav>
+          {allProjects.map((item) => (
+            <a
+              class:list={[item.id === project.id && "is-active"]}
+              href={getProjectUrl(item)}
+              aria-current={item.id === project.id ? "page" : undefined}
+            >
+              <span>{getProjectOrderLabel(item)}</span>
+              {getProjectTitle(item)}
+            </a>
+          ))}
+        </nav>
+      </section>
+    </aside>
+
+    <article class="article">
+      <header class="article-header">
+        <p class="eyebrow">Project</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <div class="article-meta">
+          <span>{getProjectOrderLabel(project)}</span>
+          <span>{getProjectGithubLabel(project)}</span>
+          {project.data.stack.length > 0 && (
+            <ul class="tag-list" aria-label="技术栈">
+              {project.data.stack.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </div>
+        {project.data.githubUrl?.trim() ? (
+          <p class="project-link-slot">
+            <a href={project.data.githubUrl} target="_blank" rel="noreferrer">
+              GitHub 仓库
+            </a>
+          </p>
+        ) : (
+          <p class="project-link-slot">GitHub 链接待填写</p>
+        )}
+      </header>
+      <div class="content">
+        <Content />
+      </div>
+    </article>
+  </div>
+</BaseLayout>
