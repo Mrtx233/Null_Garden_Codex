@@ -4,7 +4,7 @@ A personal blog by **LV MA** for long-term notes about technical learning, AI to
 
 The site is built as a lightweight Astro static blog with Markdown content, Astro Content Collections, and native CSS. The visual style is "Quiet Tech Minimalism" — clean, distraction-free, with dark/light theme support.
 
-**Live site:** [null-garden.netlify.app](https://null-garden.netlify.app)
+**Live site:** [nullgarden.netlify.app](https://nullgarden.netlify.app/)
 
 ---
 
