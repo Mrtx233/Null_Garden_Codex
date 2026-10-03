@@ -1,3 +1,11 @@
+---
+title: "阶段 12：拆分业务模块并创建 store / course / exercise"
+description: "按业务域拆分 Django 应用并建立门店、课程、动作数据表"
+tags:
+  - "Django"
+  - "开发手册"
+---
+
 # 阶段 12：拆分业务模块并创建 store / course / exercise
 
 > **合辑**：Django 系统阶段开发手册 ｜ **阶段**：12 / 18 ｜ **定位**：按业务域拆分 Django 应用并建立门店、课程、动作数据表 ｜ **建议学时**：8–10 小时

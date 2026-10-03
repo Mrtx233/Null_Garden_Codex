@@ -2,12 +2,13 @@
 title: "FastAPI + Vue3 健身管理系统"
 description: "一个基于 FastAPI 和 Vue3 的全栈健身管理系统 Demo，采用模块化架构覆盖 16 张业务表。实现了 JWT 认证登录、RBAC 细粒度权限控制、AES-256-CBC 响应体整体加密传输与前端自动解密，系统管理和内容管理模块支持完整的增删改查操作。"
 githubUrl: "https://github.com/Mrtx233/FastAPI-Vue3-Iteration"
-tags:
-  - FastAPI + Uvicorn
-  - JWT（HS256）+ bcrypt 密码哈希
-  - Vue 3 + Vite
-  - Axios
 draft: false
+stack:
+  - "FastAPI + Uvicorn"
+  - "JWT（HS256）+ bcrypt 密码哈希"
+  - "Vue 3 + Vite"
+  - "Axios"
+featured: true
 ---
 
 # FastAPI + Vue3 健身管理系统

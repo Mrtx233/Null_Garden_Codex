@@ -1,0 +1,10 @@
+---
+interface Item { title: string; url: string }
+interface Props { previous?: Item; next?: Item; listUrl: string; listLabel: string }
+const { previous, next, listUrl, listLabel } = Astro.props;
+---
+<nav class="reading-navigation" aria-label="继续阅读">
+  {previous ? <a href={previous.url}><span>上一篇</span>{previous.title}</a> : <span />}
+  {next ? <a href={next.url}><span>下一篇</span>{next.title}</a> : <span />}
+</nav>
+<div class="reading-actions"><a href={listUrl}>{listLabel}</a><a href="#page-top">返回顶部 ↑</a></div>

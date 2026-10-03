@@ -2,12 +2,12 @@
 title: "CosVerse"
 description: "一个面向 Cosplay 场景的前后端分离服务平台，覆盖活动资讯、服务市场、预约申请和后台维护。"
 githubUrl: "https://github.com/Mrtx233/Cosplay_Verse"
-tags:
-  - Java
-  - Spring Boot
-  - Vue
-  - MySQL
 draft: false
+stack:
+  - "Java"
+  - "Spring Boot"
+  - "Vue"
+  - "MySQL"
 ---
 
 # CosVerse

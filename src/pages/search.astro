@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getSearchEntries } from "../utils/search";
+const tags = [...new Set((await getSearchEntries()).flatMap(entry => entry.tags))].sort((a, b) => a.localeCompare(b, "zh-CN"));
+---
+<BaseLayout title="搜索 | Null Garden | LV MA" description="搜索 Null Garden 的文章、项目和开发手册。" noindex>
+  <section class="page-header"><p class="eyebrow">Search</p><h1>查找一篇笔记。</h1><p>搜索标题、简介和正文，也可以按内容类型或标签筛选。</p></section>
+  <form class="search-form" role="search">
+    <div class="search-field search-keyword"><label for="search-query">关键词</label><input id="search-query" name="q" type="search" placeholder="例如：JWT、异步爬虫、数据库" autocomplete="off" /></div>
+    <div class="search-field"><label for="search-category">内容类型</label><select id="search-category" name="category"><option value="">全部类型</option><option>文章</option><option>项目</option><option>手册</option></select></div>
+    <div class="search-field"><label for="search-tag">标签</label><select id="search-tag" name="tag"><option value="">全部标签</option>{tags.map(tag => <option>{tag}</option>)}</select></div>
+    <button class="button button-primary" type="submit">搜索</button>
+  </form>
+  <p id="search-status" role="status" aria-live="polite">输入关键词开始搜索，或选择分类与标签。</p>
+  <div id="search-results" class="post-list"></div>
+  <noscript><p>搜索需要 JavaScript。你也可以浏览<a href="/blog/">文章</a>、<a href="/projects/">项目</a>和<a href="/development-manual/">开发手册</a>。</p></noscript>
+  <script>
+    import "../scripts/search";
+  </script>
+</BaseLayout>

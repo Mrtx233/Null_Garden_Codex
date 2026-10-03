@@ -1,3 +1,11 @@
+---
+title: "阶段 1：创建 Django 项目 + 连接 MySQL"
+description: "搭建 Django Vue3 系统的项目骨架，完成 MySQL 数据库的创建与连接配置"
+tags:
+  - "Django"
+  - "开发手册"
+---
+
 # 阶段 1：创建 Django 项目 + 连接 MySQL
 
 > **合辑**：Django 系统阶段开发手册 ｜ **阶段**：1 / 18 ｜ **定位**：搭建 Django Vue3 系统的项目骨架，完成 MySQL 数据库的创建与连接配置 ｜ **建议学时**：3–4 小时

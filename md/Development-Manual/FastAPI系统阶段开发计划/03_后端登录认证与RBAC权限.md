@@ -1,3 +1,11 @@
+---
+title: "阶段 03：后端登录认证与 RBAC 权限"
+description: "本阶段目标是在第二阶段 ORM 模型和自动建表能力基础上，完成后端登录认证与基于角色的访问控制（RBAC, Role-Based Access Control）权限控制。"
+tags:
+  - "FastAPI"
+  - "开发手册"
+---
+
 # 阶段 03：后端登录认证与 RBAC 权限
 
 > **合辑**：FastAPI × Vue3 JoyFit 系统阶段开发计划 ｜ **端**：后端 ｜ **阶段**：3 / 12 ｜ **前置阶段**：[阶段 02：后端数据库模型与通用能力](02_后端数据库模型与通用能力.md)
@@ -118,7 +126,7 @@ backend/.env
 
 ### 完整示例
 
-```env
+```dotenv
 APP_NAME=FastAPI_Vue3_JoyFit
 APP_ENV=development
 DEBUG=true
@@ -153,7 +161,7 @@ backend/.env.example
 
 ### 完整代码
 
-```env
+```dotenv
 APP_NAME=FastAPI_Vue3_JoyFit
 APP_ENV=development
 DEBUG=true

@@ -2,12 +2,13 @@
 title: "Scrapy Official Document"
 description: "一个面向政府站点与资讯站点的多项目 Scrapy 采集仓库，提供通用基类、增量采集和 Crawlab 集成。"
 githubUrl: "https://github.com/Mrtx233/Scrapy_Official_Document"
-tags:
-  - Python
-  - Scrapy
-  - Crawlab
-  - 爬虫
 draft: false
+stack:
+  - "Python"
+  - "Scrapy"
+  - "Crawlab"
+  - "爬虫"
+featured: true
 ---
 
 # Scrapy Official Document

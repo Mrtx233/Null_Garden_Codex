@@ -1,3 +1,12 @@
+---
+title: "DrissionPage 专题：定位、用法详解与工具对比"
+description: "这是爬虫系列的进阶专题。在前两篇中，我们梳理了 requests 体系与 Selenium / Playwright 的选型逻辑。但在实际项目里，很多读者反馈同样的问题：Selenium 驱动管理麻烦、Playwright 部署笨重、requests 拿不到动态数据。本文介绍一个在国内爬虫圈使用率上升很快的工具——DrissionPage，重点讲清它的定位、"
+tags:
+  - "Python"
+  - "DrissionPage"
+  - "浏览器自动化"
+---
+
 # DrissionPage 专题：定位、用法详解与工具对比
 
 大家好，我是小马不起床。

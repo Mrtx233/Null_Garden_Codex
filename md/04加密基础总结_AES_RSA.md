@@ -1,3 +1,12 @@
+---
+title: "加密基础总结：AES-CBC 与 RSA"
+description: "接口加密是爬虫进阶绕不开的一环：请求参数为什么每次都不一样、密文为什么解不开、前端公钥和后端私钥如何配合——答案都藏在 AES 与 RSA 的基础原理里。本文系统梳理对称加密与非对称加密的核心概念，并给出 Python / JavaScript 双端 AES-CBC、RSA 的标准实现流程，全部代码可直接运行验证。"
+tags:
+  - "密码学"
+  - "Python"
+  - "JavaScript"
+---
+
 # 加密基础总结：AES-CBC 与 RSA
 
 大家好，我是小马不起床。

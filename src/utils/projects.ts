@@ -3,9 +3,10 @@ import type { CollectionEntry } from "astro:content";
 export type ProjectEntry = CollectionEntry<"projects">;
 
 const getFileName = (project: ProjectEntry) =>
-  project.id.split("/").pop() ?? project.id;
+  (project.filePath ?? project.id).split(/[\\/]/).pop() ?? project.id;
 
-const getOrderMatch = (project: ProjectEntry) => getFileName(project).match(/^(\d+)/);
+const getOrderMatch = (project: ProjectEntry) =>
+  getFileName(project).match(/^(\d+)/);
 
 export const getProjectOrder = (project: ProjectEntry) => {
   const match = getOrderMatch(project);
@@ -22,10 +23,15 @@ export const getProjectTitle = (project: ProjectEntry) => project.data.title;
 export const getProjectDescription = (project: ProjectEntry) =>
   project.data.description;
 
-export const getProjectUrl = (project: ProjectEntry) => `/projects/${project.id}/`;
+export const getProjectUrl = (project: ProjectEntry) =>
+  `/projects/${project.id}/`;
 
-export const getProjectGithubLabel = (project: ProjectEntry) =>
-  project.data.githubUrl?.trim() ? "GitHub 已填写" : "GitHub 链接待填写";
+export const getProjectGithubLabel = (project: ProjectEntry) => {
+  if (!project.data.githubUrl?.trim()) return "项目记录";
+  if (project.data.repositoryVisibility === "private") return "私有仓库";
+  if (project.data.repositoryVisibility === "public") return "公开仓库";
+  return "GitHub 仓库";
+};
 
 export const sortProjectsByFileOrder = (projects: ProjectEntry[]) =>
   [...projects].sort((a, b) => {
@@ -36,6 +42,6 @@ export const sortProjectsByFileOrder = (projects: ProjectEntry[]) =>
     }
 
     return getFileName(a).localeCompare(getFileName(b), "zh-CN", {
-      numeric: true
+      numeric: true,
     });
   });

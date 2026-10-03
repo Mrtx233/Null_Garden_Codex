@@ -1,3 +1,11 @@
+---
+title: "阶段 2：创建 RBAC 四张表"
+description: "创建 rbac 应用，以模型方式定义并生成基于角色的访问控制（Role-Based Access Control, RBAC）的四张核心表"
+tags:
+  - "Django"
+  - "开发手册"
+---
+
 # 阶段 2：创建 RBAC 四张表
 
 > **合辑**：Django 系统阶段开发手册 ｜ **阶段**：2 / 18 ｜ **定位**：创建 rbac 应用，以模型方式定义并生成基于角色的访问控制（Role-Based Access Control, RBAC）的四张核心表 ｜ **建议学时**：4–6 小时

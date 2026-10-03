@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { sortProjectsByFileOrder, getProjectUrl, getProjectGithubLabel } from "../utils/projects";
+const projects = sortProjectsByFileOrder(await getCollection("projects", ({ data }) => !data.draft && data.featured));
 ---
 
 <BaseLayout
@@ -64,34 +67,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <section>
       <p class="about-section-title">Projects</p>
       <div class="project-grid-about">
-        <article class="info-card">
-          <h3>Google 模糊搜索文件采集与语种归档系统</h3>
-          <p>基于 asyncio/aiohttp 异步并发下载，Redis 双重去重与断点续跑，FastText 语种识别与自动归档。实现从关键词检索到文件归档的全链路自动化。</p>
-          <div class="project-link-slot">
-            <a href="https://github.com/Mrtx233/Vague-Search" target="_blank" rel="noopener">github.com/Mrtx233/Vague-Search</a>
-          </div>
-        </article>
-        <article class="info-card">
-          <h3>政务信息采集平台（Scrapy 多站点）</h3>
-          <p>开发通用爬虫基类，实现"通用框架 + 站点配置"快速适配模式。编写 1300+ 行自定义 Pipeline，接入雪花 ID 分配方案，覆盖科技系统政府网站多栏目数据采集。</p>
-          <div class="project-link-slot">
-            <a href="https://github.com/Mrtx233/Scrapy_Official_Document" target="_blank" rel="noopener">github.com/Mrtx233/Scrapy_Official_Document</a>
-          </div>
-        </article>
-        <article class="info-card">
-          <h3>FastAPI + Vue3 健身管理系统</h3>
-          <p>基于 FastAPI + SQLAlchemy 2.0 异步 ORM 与 Vue3 + Element Plus 的全栈系统 Demo，模块化架构覆盖 16 张业务表。实现 JWT 认证、RBAC 细粒度权限控制与 AES-256-CBC 响应体加密传输。</p>
-          <div class="project-link-slot">
-            <a href="https://github.com/Mrtx233/FastAPI-Vue3-Iteration" target="_blank" rel="noopener">github.com/Mrtx233/FastAPI-Vue3-Iteration</a>
-          </div>
-        </article>
-        <article class="info-card">
-          <h3>Spring + Vue3 JoyFit 乐练健身管理系统</h3>
-          <p>JoyFit 是一个面向连锁健身门店的前后端分离管理系统，覆盖官网展示、会员注册登录、门店查询、动作库、课程库、论坛互动、个人中心、店长排课与管理员后台数据维护等场景。项目包含 Spring Boot 后端、Vue 3 前端、MySQL 数据库脚本，以及完整的 UML、原型图和测试截图资料。</p>
-          <div class="project-link-slot">
-            <a href="https://github.com/Mrtx233/JoyFit_ml" target="_blank" rel="noopener">github.com/Mrtx233/FastAPI-Vue3-Iteration</a>
-          </div>
-        </article>
+        {projects.map(project => (
+          <article class="info-card">
+            <p class="post-meta">{getProjectGithubLabel(project)}</p>
+            <h3><a href={getProjectUrl(project)}>{project.data.title}</a></h3>
+            <p>{project.data.description}</p>
+            <ul class="tag-list" aria-label="技术栈">{project.data.stack.map(item => <li>{item}</li>)}</ul>
+            {project.data.githubUrl && <p class="project-link-slot"><a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer">{new URL(project.data.githubUrl).hostname + new URL(project.data.githubUrl).pathname}</a></p>}
+          </article>
+        ))}
       </div>
     </section>
 

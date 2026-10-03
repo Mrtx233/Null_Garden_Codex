@@ -1,24 +1,16 @@
 ---
 import "../styles/global.css";
-
-interface Props {
-  title?: string;
-  description?: string;
-  ogType?: "website" | "article";
-}
-
+interface Props { title?: string; description?: string; ogType?: "website" | "article"; noindex?: boolean }
 const {
   title = "Null Garden | LV MA",
   description = "你好，我是 LV MA。这里是 Null Garden，一个记录技术、AI 工具、项目实践和个人思考的地方。",
-  ogType = "website"
+  ogType = "website",
+  noindex = false
 } = Astro.props;
-
-const canonicalUrl = new URL(
-  Astro.url.pathname,
-  Astro.site ?? Astro.url
-).toString();
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const shareImage = new URL("/share.png", Astro.site ?? Astro.url).toString();
+const navigation = [ ["/", "首页"], ["/blog/", "文章"], ["/development-manual/", "手册"], ["/projects/", "项目"], ["/search/", "搜索"], ["/about/", "关于"] ];
 ---
-
 <!doctype html>
 <html lang="zh-CN" data-theme="dark">
   <head>
@@ -26,106 +18,44 @@ const canonicalUrl = new URL(
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0f14" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
-    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Null Garden — 在空白处种下想法" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {!noindex && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Null Garden 文章订阅" href="/rss.xml" />
     <title>{title}</title>
+    <script is:inline>
+      // 在正文绘制前恢复主题；禁用存储时仍可正常阅读与切换。
+      try {
+        const theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
   </head>
-  <body>
+  <body id="page-top">
+    <a class="skip-link" href="#main-content">跳到正文</a>
     <header class="site-header">
       <a class="site-title" href="/">Null Garden_</a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="/">首页</a>
-        <a href="/blog/">文章</a>
-        <a href="/development-manual/">手册</a>
-        <a href="/projects/">项目</a>
-        <a href="/about/">关于</a>
+      <nav class="site-nav" aria-label="主导航">
+        {navigation.map(([url, label]) => <a href={url} aria-current={(url === "/" ? Astro.url.pathname === url : Astro.url.pathname.startsWith(url)) ? "page" : undefined}>{label}</a>)}
       </nav>
-      <button class="theme-toggle" type="button" aria-label="切换浅色模式">
-        ◐
-      </button>
+      <button class="theme-toggle" type="button" aria-label="切换浅色模式">◐</button>
     </header>
-    <main class="site-main">
-      <slot />
-    </main>
+    <main class="site-main" id="main-content" tabindex="-1"><slot /></main>
     <footer class="site-footer">
       <p>Null Garden | LV MA</p>
+      <nav aria-label="页脚导航"><a href="/search/">查找内容</a><a href="/rss.xml">RSS 订阅</a><a href="#page-top">返回顶部 ↑</a></nav>
     </footer>
-    <script is:inline>
-      const storedTheme = localStorage.getItem("theme");
-      const themeToggle = document.querySelector(".theme-toggle");
-
-      if (storedTheme === "light" || storedTheme === "dark") {
-        document.documentElement.dataset.theme = storedTheme;
-      }
-
-      const syncThemeLabel = () => {
-        const isLight = document.documentElement.dataset.theme === "light";
-        themeToggle?.setAttribute(
-          "aria-label",
-          isLight ? "切换深色模式" : "切换浅色模式"
-        );
-      };
-
-      syncThemeLabel();
-
-      themeToggle?.addEventListener("click", () => {
-        const nextTheme =
-          document.documentElement.dataset.theme === "light" ? "dark" : "light";
-        document.documentElement.dataset.theme = nextTheme;
-        localStorage.setItem("theme", nextTheme);
-        syncThemeLabel();
-      });
-    </script>
-    <script is:inline>
-      document.querySelectorAll(".content pre").forEach((pre) => {
-        if (pre.querySelector(".copy-btn")) return;
-        const btn = document.createElement("button");
-        btn.className = "copy-btn";
-        btn.type = "button";
-        btn.textContent = "复制";
-        btn.setAttribute("aria-label", "复制代码");
-        btn.addEventListener("click", () => {
-          const code =
-            pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
-          navigator.clipboard.writeText(code).then(() => {
-            btn.textContent = "已复制";
-            btn.classList.add("is-copied");
-            setTimeout(() => {
-              btn.textContent = "复制";
-              btn.classList.remove("is-copied");
-            }, 2000);
-          });
-        });
-        pre.appendChild(btn);
-      });
-
-      const tocLinks = [...document.querySelectorAll(".side-nav .toc-link")];
-      const tocHeadings = tocLinks
-        .map((link) => {
-          const id = decodeURIComponent(link.hash.replace(/^#/, ""));
-          return id ? document.getElementById(id) : null;
-        })
-        .filter(Boolean);
-
-      const syncActiveToc = () => {
-        if (!tocHeadings.length) return;
-        let current = tocHeadings[0];
-        for (const heading of tocHeadings) {
-          if (heading.getBoundingClientRect().top <= 120) current = heading;
-        }
-        tocLinks.forEach((link) => {
-          const id = decodeURIComponent(link.hash.replace(/^#/, ""));
-          link.classList.toggle("is-current", current?.id === id);
-        });
-      };
-
-      if (tocHeadings.length) {
-        syncActiveToc();
-        window.addEventListener("scroll", syncActiveToc, { passive: true });
-      }
+    <script>
+      import "../scripts/browser";
     </script>
   </body>
 </html>

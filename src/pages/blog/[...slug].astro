@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import ReadingNavigation from "../../components/ReadingNavigation.astro";
+import { readingMinutes, formatDate } from "../../utils/reading";
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import {
@@ -40,6 +43,12 @@ const tableOfContents = headings.filter(
     heading.depth > 1 &&
     heading.depth < 4
 );
+const navigationItems = allPosts;
+const currentIndex = navigationItems.findIndex(entry => entry.id === post.id);
+const previousEntry = navigationItems[currentIndex - 1];
+const nextEntry = navigationItems[currentIndex + 1];
+const previous = previousEntry ? { title: getPostTitle(previousEntry), url: getPostUrl(previousEntry) } : undefined;
+const next = nextEntry ? { title: getPostTitle(nextEntry), url: getPostUrl(nextEntry) } : undefined;
 ---
 
 <BaseLayout
@@ -49,27 +58,10 @@ const tableOfContents = headings.filter(
 >
   <div class="article-shell">
     <aside class="side-nav article-side-nav" aria-label="文章侧边导航">
-      {tableOfContents.length > 0 && (
-        <section>
-          <p class="side-nav-title">本文目录</p>
-          <nav>
-            {tableOfContents.map((heading) => (
-              <a
-                class:list={[
-                  "toc-link",
-                  heading.depth === 3 && "toc-link-nested"
-                ]}
-                href={`#${heading.slug}`}
-              >
-                {heading.text}
-              </a>
-            ))}
-          </nav>
-        </section>
-      )}
+      <TableOfContents headings={tableOfContents} />
 
-      <section>
-        <p class="side-nav-title">全部文章</p>
+      <details class="collection-navigation" data-desktop-open>
+        <summary>全部文章</summary>
         <nav>
           {allPosts.map((item) => (
             <a
@@ -82,7 +74,7 @@ const tableOfContents = headings.filter(
             </a>
           ))}
         </nav>
-      </section>
+      </details>
     </aside>
 
     <article class="article">
@@ -91,7 +83,9 @@ const tableOfContents = headings.filter(
         <h1>{title}</h1>
         <p>{description}</p>
         <div class="article-meta">
+          <span>约 {readingMinutes(post.body)} 分钟阅读</span>
           <span>{getPostOrderLabel(post)}</span>
+          {post.data.pubDate && <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>}
           {post.data.tags.length > 0 && (
             <ul class="tag-list" aria-label="标签">
               {post.data.tags.map((tag) => <li>{tag}</li>)}
@@ -102,6 +96,7 @@ const tableOfContents = headings.filter(
       <div class="content">
         <Content />
       </div>
+      <ReadingNavigation previous={previous} next={next} listUrl="/blog/" listLabel="全部文章" />
     </article>
   </div>
 </BaseLayout>

@@ -1,0 +1,28 @@
+---
+interface Heading { depth: number; slug: string; text: string }
+interface Props { headings: Heading[] }
+const { headings } = Astro.props;
+const groups: { heading: Heading; children: Heading[] }[] = [];
+for (const heading of headings) {
+  if (heading.depth === 2 || !groups.length) groups.push({ heading, children: [] });
+  else groups[groups.length - 1].children.push(heading);
+}
+---
+{groups.length > 0 && (
+  <details class="toc-panel" data-desktop-open>
+    <summary>本文目录 <span>{headings.length} 个章节</span></summary>
+    <nav aria-label="本文目录">
+      {groups.map(({ heading, children }) => (
+        <div class="toc-group">
+          <a class="toc-link" href={`#${heading.slug}`}>{heading.text}</a>
+          {children.length > 0 && (
+            <details class="toc-children">
+              <summary>展开子章节（{children.length}）</summary>
+              {children.map(child => <a class="toc-link toc-link-nested" href={`#${child.slug}`}>{child.text}</a>)}
+            </details>
+          )}
+        </div>
+      ))}
+    </nav>
+  </details>
+)}

@@ -1,3 +1,11 @@
+---
+title: "阶段 5：实现 JWT 登录"
+description: "基于 JSON Web Token 实现登录发证与 access_token 刷新的后端接口"
+tags:
+  - "Django"
+  - "开发手册"
+---
+
 # 阶段 5：实现 JWT 登录
 
 > **合辑**：Django 系统阶段开发手册 ｜ **阶段**：5 / 18 ｜ **定位**：基于 JSON Web Token 实现登录发证与 access_token 刷新的后端接口 ｜ **建议学时**：4–6 小时

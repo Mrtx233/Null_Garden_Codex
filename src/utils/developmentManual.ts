@@ -31,9 +31,6 @@ const getDisplayPathParts = (manual: DevelopmentManualEntry) => {
 const getFileName = (manual: DevelopmentManualEntry) =>
   getDisplayPathParts(manual).pop() ?? manual.id;
 
-const getManualBody = (manual: DevelopmentManualEntry) =>
-  ((manual as DevelopmentManualEntry & { body?: string }).body ?? "").trim();
-
 const stripInlineMarkdown = (value: string) =>
   value
     .replace(/^#+\s*/, "")
@@ -45,14 +42,13 @@ const stripInlineMarkdown = (value: string) =>
 const cleanText = (value: string) =>
   stripInlineMarkdown(value).replace(/[_-]+/g, " ").trim();
 
-// 部分手册没有引导块，简介会落到开场签名行，需要跳过
-const isGreetingLine = (line: string) => /^大家好[，,]?\s*我是/.test(line);
-
 const getStageMatch = (manual: DevelopmentManualEntry) =>
   getFileName(manual).match(/阶段\s*(\d+)/) ??
   getFileName(manual).match(/^(\d+)[_\s-]/);
 
 const isSeriesOverview = (manual: DevelopmentManualEntry) =>
+  manual.data.overview ||
+  /^(00)[_\s-]/.test(getFileName(manual)) ||
   cleanText(getFileName(manual)) === getManualSeriesTitle(manual);
 
 export const getManualSeriesTitle = (manual: DevelopmentManualEntry) =>
@@ -78,46 +74,10 @@ export const getManualOrderLabel = (manual: DevelopmentManualEntry) => {
   return match ? `阶段 ${match[1]}` : "手册";
 };
 
-export const getManualTitle = (manual: DevelopmentManualEntry) => {
-  if (manual.data.title) {
-    return manual.data.title;
-  }
-
-  const fileTitle = cleanText(getFileName(manual));
-
-  if (fileTitle) {
-    return fileTitle;
-  }
-
-  const heading = getManualBody(manual)
-    .split(/\r?\n/)
-    .find((line) => line.startsWith("# "));
-
-  return heading ? cleanText(heading) : manual.id;
-};
-
-export const getManualDescription = (manual: DevelopmentManualEntry) => {
-  if (manual.data.description) {
-    return manual.data.description;
-  }
-
-  const paragraph = getManualBody(manual)
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .find(
-      (line) =>
-        line &&
-        !line.startsWith("#") &&
-        !line.startsWith("|") &&
-        line !== "---" &&
-        !line.startsWith("```") &&
-        !isGreetingLine(line)
-    );
-
-  return paragraph
-    ? stripInlineMarkdown(paragraph)
-    : `${getManualTitle(manual)} 的阶段开发手册。`;
-};
+export const getManualTitle = (manual: DevelopmentManualEntry) =>
+  manual.data.title;
+export const getManualDescription = (manual: DevelopmentManualEntry) =>
+  manual.data.description;
 
 export const getManualUrl = (manual: DevelopmentManualEntry) =>
   `/development-manual/${manual.id}/`;
@@ -133,7 +93,7 @@ export const sortManualsBySeriesOrder = (manuals: DevelopmentManualEntry[]) =>
     const seriesDiff = getManualSeriesTitle(a).localeCompare(
       getManualSeriesTitle(b),
       "zh-CN",
-      { numeric: true }
+      { numeric: true },
     );
 
     if (seriesDiff !== 0) {
@@ -147,12 +107,12 @@ export const sortManualsBySeriesOrder = (manuals: DevelopmentManualEntry[]) =>
     }
 
     return getFileName(a).localeCompare(getFileName(b), "zh-CN", {
-      numeric: true
+      numeric: true,
     });
   });
 
 export const groupManualsBySeries = (
-  manuals: DevelopmentManualEntry[]
+  manuals: DevelopmentManualEntry[],
 ): ManualSeries[] => {
   const grouped = new Map<string, DevelopmentManualEntry[]>();
 

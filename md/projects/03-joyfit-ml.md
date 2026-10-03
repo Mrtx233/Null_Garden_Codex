@@ -2,12 +2,13 @@
 title: "JoyFit 乐练健身管理系统"
 description: "一个面向连锁健身门店的前后端分离管理系统，覆盖会员、店长、管理员与公开内容展示。"
 githubUrl: "https://github.com/Mrtx233/JoyFit_ml"
-tags:
-  - Java
-  - Spring Boot
-  - Vue
-  - MySQL
 draft: false
+stack:
+  - "Java"
+  - "Spring Boot"
+  - "Vue"
+  - "MySQL"
+featured: true
 ---
 
 # JoyFit 乐练健身管理系统

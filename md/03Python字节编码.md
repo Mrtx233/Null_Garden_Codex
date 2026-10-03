@@ -1,3 +1,11 @@
+---
+title: "Python 字符串、字节、编码与 Base64 知识总结"
+description: "编码是爬虫与后端开发中最容易被忽视、却又最容易引发疑难问题的一环：乱码、UnicodeDecodeError、Base64 还原失败，根源几乎都在于对 str 与 bytes 的边界认识不清。本文系统梳理 Python 中 str、bytes、encode()、decode()、UTF-8、GBK 与 Base64 的核心概念及标准转换流程，篇幅不长，但值得"
+tags:
+  - "Python"
+  - "编码"
+---
+
 # Python 字符串、字节、编码与 Base64 知识总结
 
 大家好，我是小马不起床。

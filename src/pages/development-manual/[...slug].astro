@@ -1,10 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import ReadingNavigation from "../../components/ReadingNavigation.astro";
+import { readingMinutes } from "../../utils/reading";
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import {
   getManualDescription,
   getManualOrderLabel,
+  getManualSeriesAnchor,
   getManualSeriesTitle,
   getManualTitle,
   getManualUrl,
@@ -44,6 +48,12 @@ const tableOfContents = headings.filter(
     heading.depth > 1 &&
     heading.depth < 4
 );
+const navigationItems = currentSeries?.entries ?? [];
+const currentIndex = navigationItems.findIndex(entry => entry.id === manual.id);
+const previousEntry = navigationItems[currentIndex - 1];
+const nextEntry = navigationItems[currentIndex + 1];
+const previous = previousEntry ? { title: getManualTitle(previousEntry), url: getManualUrl(previousEntry) } : undefined;
+const next = nextEntry ? { title: getManualTitle(nextEntry), url: getManualUrl(nextEntry) } : undefined;
 ---
 
 <BaseLayout
@@ -53,28 +63,11 @@ const tableOfContents = headings.filter(
 >
   <div class="article-shell">
     <aside class="side-nav manual-side-nav" aria-label="开发手册侧边导航">
-      {tableOfContents.length > 0 && (
-        <section>
-          <p class="side-nav-title">本文目录</p>
-          <nav>
-            {tableOfContents.map((heading) => (
-              <a
-                class:list={[
-                  "toc-link",
-                  heading.depth === 3 && "toc-link-nested"
-                ]}
-                href={`#${heading.slug}`}
-              >
-                {heading.text}
-              </a>
-            ))}
-          </nav>
-        </section>
-      )}
+      <TableOfContents headings={tableOfContents} />
 
       {currentSeries && (
-        <section>
-          <p class="side-nav-title">{currentSeries.title}</p>
+        <details class="collection-navigation" data-desktop-open>
+          <summary>{currentSeries.title}</summary>
           <nav>
             {currentSeries.entries.map((item) => (
               <a
@@ -87,7 +80,7 @@ const tableOfContents = headings.filter(
               </a>
             ))}
           </nav>
-        </section>
+        </details>
       )}
     </aside>
 
@@ -97,6 +90,7 @@ const tableOfContents = headings.filter(
         <h1>{title}</h1>
         <p>{description}</p>
         <div class="article-meta">
+          <span>约 {readingMinutes(manual.body)} 分钟阅读</span>
           <span>{currentSeriesTitle}</span>
           <span>{getManualOrderLabel(manual)}</span>
           {manual.data.tags.length > 0 && (
@@ -109,6 +103,7 @@ const tableOfContents = headings.filter(
       <div class="content">
         <Content />
       </div>
+      <ReadingNavigation previous={previous} next={next} listUrl={`/development-manual/#${getManualSeriesAnchor(currentSeriesTitle)}`} listLabel="本系列目录" />
     </article>
   </div>
 </BaseLayout>

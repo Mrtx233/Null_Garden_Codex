@@ -2,12 +2,12 @@
 title: "UCan Football Management"
 description: "一个前后端分离的足球俱乐部管理系统，覆盖管理员、经理人和球员的多角色管理场景。"
 githubUrl: "https://github.com/Mrtx233/UCan_Football_Management"
-tags:
-  - Java
-  - Spring Boot
-  - Vue
-  - MySQL
 draft: false
+stack:
+  - "Java"
+  - "Spring Boot"
+  - "Vue"
+  - "MySQL"
 ---
 
 # UCan Football Management
