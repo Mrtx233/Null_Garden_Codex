@@ -1,0 +1,14 @@
+---
+import CoverImage from "./CoverImage.astro";
+import { getPostCover } from "../data/postVisuals";
+import type { BlogPost } from "../utils/blog";
+
+interface Props {
+  post: BlogPost;
+  compact?: boolean;
+}
+const { post, compact = false } = Astro.props;
+const cover = getPostCover(post);
+---
+
+<CoverImage image={cover.image} alt={cover.alt} compact={compact} />

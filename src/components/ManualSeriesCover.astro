@@ -1,0 +1,13 @@
+---
+import CoverImage from "./CoverImage.astro";
+import { getManualSeriesCover } from "../data/manualVisuals";
+
+interface Props {
+  title: string;
+  compact?: boolean;
+}
+const { title, compact = false } = Astro.props;
+const cover = getManualSeriesCover(title);
+---
+
+<CoverImage image={cover.image} alt={cover.alt} compact={compact} />

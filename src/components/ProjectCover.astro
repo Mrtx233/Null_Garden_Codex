@@ -1,0 +1,14 @@
+---
+import CoverImage from "./CoverImage.astro";
+import { getProjectCover } from "../data/projectVisuals";
+import type { ProjectEntry } from "../utils/projects";
+
+interface Props {
+  project: ProjectEntry;
+  compact?: boolean;
+}
+const { project, compact = false } = Astro.props;
+const cover = getProjectCover(project);
+---
+
+<CoverImage image={cover.image} alt={cover.alt} compact={compact} />

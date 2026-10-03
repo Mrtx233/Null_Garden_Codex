@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCover from "../../components/ProjectCover.astro";
 import { getCollection } from "astro:content";
 import {
   getProjectDescription,
@@ -30,6 +31,7 @@ const projects = sortProjectsByFileOrder(
   <div class="project-grid">
     {projects.map((project) => (
       <article class="project-card">
+        <ProjectCover project={project} />
         <div class="post-meta">
           <span>{getProjectOrderLabel(project)}</span>
           <span>{getProjectGithubLabel(project)}</span>

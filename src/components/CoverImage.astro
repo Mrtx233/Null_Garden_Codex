@@ -1,0 +1,54 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  compact?: boolean;
+}
+const { image, alt, compact = false } = Astro.props;
+---
+
+<div class:list={["content-cover", { "content-cover-compact": compact }]}>
+  <Image
+    src={image}
+    alt={alt}
+    widths={[360, 640, 960]}
+    sizes={compact
+      ? "(max-width: 640px) 86vw, (max-width: 980px) 32vw, 400px"
+      : "(max-width: 820px) calc(100vw - 2rem), (max-width: 980px) 45vw, 620px"}
+    format="webp"
+    quality={80}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
+
+<style>
+  .content-cover {
+    margin: calc(-1 * var(--cover-inset, 1.35rem)) calc(-1 * var(--cover-inset, 1.35rem)) 1.15rem;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-line);
+    border-radius: 0.45rem 0.45rem 0 0;
+    background: #faf6ee;
+  }
+  .content-cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+  .content-cover-compact img {
+    height: clamp(9rem, 24svh, 12rem);
+    aspect-ratio: auto;
+    object-position: center top;
+  }
+  @media (max-width: 640px) {
+    :global(.post-card) .content-cover,
+    :global(.manual-series-card) .content-cover {
+      --cover-inset: 1rem;
+    }
+  }
+</style>

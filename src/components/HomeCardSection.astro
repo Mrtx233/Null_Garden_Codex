@@ -105,6 +105,11 @@ const { id, eyebrow, title, href, linkLabel, layout = "scroll" } = Astro.props;
     overflow: hidden;
   }
 
+  .home-card-rail :global(.manual-series-card:has(.content-cover) .manual-mini-list) {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
   .home-card-section-grid .home-section-panel {
     height: auto;
     min-height: max(100svh, 36rem);
@@ -154,6 +159,10 @@ const { id, eyebrow, title, href, linkLabel, layout = "scroll" } = Astro.props;
     display: none;
   }
 
+  .home-card-section .home-card-rail > :global(article:has(.content-cover)) {
+    height: min(30rem, calc(100svh - 13rem));
+  }
+
   @media (max-width: 980px) {
     .home-card-section-grid .home-card-rail {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -161,6 +170,9 @@ const { id, eyebrow, title, href, linkLabel, layout = "scroll" } = Astro.props;
   }
 
   @media (max-width: 640px) {
+    .home-card-section .home-card-rail > :global(article:has(.content-cover)) {
+      height: 32rem;
+    }
     .home-card-rail {
       grid-auto-columns: min(21rem, 86%);
     }
