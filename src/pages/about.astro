@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import aboutCharacter from "../assets/about-character.png";
+import HomeCardSection from "../components/HomeCardSection.astro";
 import { getCollection } from "astro:content";
 import { sortProjectsByFileOrder, getProjectUrl, getProjectGithubLabel } from "../utils/projects";
 const projects = sortProjectsByFileOrder(await getCollection("projects", ({ data }) => !data.draft && data.featured));
@@ -9,82 +12,259 @@ const projects = sortProjectsByFileOrder(await getCollection("projects", ({ data
   title="关于我 | Null Garden | LV MA"
   description="马缕，Python 工程师，专注数据采集、异步爬虫框架设计与数据自动化处理。"
 >
-  <section class="page-header">
-    <p class="eyebrow">About</p>
-    <h1>关于我</h1>
-    <p>
-      你好，我是马缕（LV MA）。Null Garden 用于归档日常技术积累、实战项目与成长思考。主攻 Python 数据采集与后端工程开发，具备多站点爬虫框架自研、异步调度优化实战经验，聚焦 AI 自动化、数据工程方向的技术落地与迭代。
-    </p>
-  </section>
-
-  <div class="about-sections">
-    <section>
-      <p class="about-section-title">Tech Stack</p>
-      <div class="skill-grid">
-      <article class="info-card skill-group">
-          <h3>后端开发</h3>
-          <p>熟练使用 FastAPI、Django 两大主流 Python 后端框架，基于 ORM 完成 MySQL 数据表设计与业务接口封装；熟练使用 JWT 实现接口鉴权、RBAC 权限管控，可独立搭建前后端分离项目，完成 Linux 服务器部署、Nginx 反向代理配置与项目上线运维。</p>
-        </article>
-        <article class="info-card skill-group">
-          <h3>爬虫开发</h3>
-          <p>精通 Python 爬虫技术，熟练使用 Scrapy 框架与 DrissionPage 自动化采集，掌握 XPath、Regex 数据解析，能独立设计多站点通用采集框架。擅长 asyncio + aiohttp 异步协程开发。</p>
-        </article>
-        <article class="info-card skill-group">
-          <h3>数据处理</h3>
-          <p>熟练使用 Redis 实现 URL/MD5 双重去重与断点续跑，支持多机进度共享。会用 openpyxl/xlrd、python-docx 处理 Excel/Word 文件，完成文本抽取、分类归档与结构化输出。</p>
-        </article>
-        <article class="info-card skill-group">
-          <h3>辅助技术</h3>
-          <p>掌握 FastText 语种识别、雪花 ID 分布式唯一 ID 分配。熟悉 FastAPI 和 Django 后端框架，能独立完成全栈项目开发。熟悉 MySQL、Linux，能独立完成 Python 服务器环境搭建与部署。具备基础机器学习模型搭建与调优能力。</p>
-        </article>
+  <div class="about-page">
+    <section class="page-header about-intro">
+      <div class="about-intro-copy">
+        <p class="eyebrow">About</p>
+        <h1>关于我</h1>
+        <p>
+          你好，我是马缕（LV MA）。Null Garden 用于归档日常技术积累、实战项目与成长思考。主攻 Python 数据采集与后端工程开发，具备多站点爬虫框架自研、异步调度优化实战经验，聚焦 AI 自动化、数据工程方向的技术落地与迭代。
+        </p>
       </div>
+      <figure class="about-portrait">
+        <Image
+          src={aboutCharacter}
+          alt="马缕的卡通形象：黑色短发、黑框眼镜，穿红白球衣，手持电脑挥手打招呼。"
+          widths={[320, 480, 640, 800]}
+          sizes="(max-width: 760px) 240px, (max-width: 1100px) 320px, 416px"
+          format="webp"
+          quality={90}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
     </section>
 
-    <section>
-      <p class="about-section-title">Experience</p>
-      <div class="timeline">
-        <div class="timeline-entry">
-          <span class="timeline-range">2025.06 — 2026.04</span>
-          <h3>武汉金山软件有限公司</h3>
-          <span class="timeline-role">爬虫工程师</span>
-          <p>基于 Python + Scrapy 框架设计多线程自动化采集工具，配置 IP 代理池突破反爬限制。设计数据采集—清洗—存储全流程自动化调度体系，搭建数据质量监控看板。搭建结构化数据存储库与权限管控体系，为 AI 模型训练提供稳定数据支撑。</p>
-        </div>
-        <div class="timeline-entry">
-          <span class="timeline-range">2024.09 — 2026.06</span>
-          <h3>武汉生物工程学院</h3>
-          <span class="timeline-role">计算机科学与技术 · 本科</span>
-          <p>主修算法设计、软件工程、设计模式、数据结构、数据库原理等核心课程。基于 Python 实现机器学习模型搭建与训练，掌握模型调优基础方法。</p>
-        </div>
-        <div class="timeline-entry">
-          <span class="timeline-range">2021.09 — 2024.06</span>
-          <h3>武汉职业技术学院</h3>
-          <span class="timeline-role">软件技术 · 专科</span>
-          <p>专业排名 34/243，获学院笃学奖学金。系统学习 Python 爬虫、JavaWeb、MySQL、Linux 等技术。2023 年通过全国计算机技术与软件专业技术资格考试，取得初级程序员证书。</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <p class="about-section-title">Projects</p>
-      <div class="project-grid-about">
-        {projects.map(project => (
-          <article class="info-card">
-            <p class="post-meta">{getProjectGithubLabel(project)}</p>
-            <h3><a href={getProjectUrl(project)}>{project.data.title}</a></h3>
-            <p>{project.data.description}</p>
-            <ul class="tag-list" aria-label="技术栈">{project.data.stack.map(item => <li>{item}</li>)}</ul>
-            {project.data.githubUrl && <p class="project-link-slot"><a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer">{new URL(project.data.githubUrl).hostname + new URL(project.data.githubUrl).pathname}</a></p>}
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section>
-      <p class="about-section-title">Contact</p>
+    <HomeCardSection id="about-skills" eyebrow="Tech Stack" title="技术能力" layout="grid">
       <article class="info-card">
-        <h3>联系方式</h3>
-        <p><a class="contact-link" href="mailto:2543035755@qq.com">2543035755@qq.com</a></p>
+        <h3>后端开发</h3>
+        <p class="card-description">熟练使用 FastAPI、Django 两大主流 Python 后端框架，基于 ORM 完成 MySQL 数据表设计与业务接口封装；熟练使用 JWT 实现接口鉴权、RBAC 权限管控，可独立搭建前后端分离项目，完成 Linux 服务器部署、Nginx 反向代理配置与项目上线运维。</p>
       </article>
+      <article class="info-card">
+        <h3>爬虫开发</h3>
+        <p class="card-description">精通 Python 爬虫技术，熟练使用 Scrapy 框架与 DrissionPage 自动化采集，掌握 XPath、Regex 数据解析，能独立设计多站点通用采集框架。擅长 asyncio + aiohttp 异步协程开发。</p>
+      </article>
+      <article class="info-card">
+        <h3>数据处理</h3>
+        <p class="card-description">熟练使用 Redis 实现 URL/MD5 双重去重与断点续跑，支持多机进度共享。会用 openpyxl/xlrd、python-docx 处理 Excel/Word 文件，完成文本抽取、分类归档与结构化输出。</p>
+      </article>
+      <article class="info-card">
+        <h3>辅助技术</h3>
+        <p class="card-description">掌握 FastText 语种识别、雪花 ID 分布式唯一 ID 分配。熟悉 FastAPI 和 Django 后端框架，能独立完成全栈项目开发。熟悉 MySQL、Linux，能独立完成 Python 服务器环境搭建与部署。具备基础机器学习模型搭建与调优能力。</p>
+      </article>
+    </HomeCardSection>
+
+    <HomeCardSection id="about-experience" eyebrow="Experience" title="工作与教育" layout="grid">
+      <article class="info-card">
+        <p class="post-date">2026.06 — 至今</p>
+        <h3>武汉昂岚科技有限公司</h3>
+        <span class="timeline-role">跨境电商数据采集与自动化</span>
+        <p class="card-description">开发并迭代 Anglan Crawler、Anglan Crawler Pro、Anglan Crawler JSON 三个跨境电商数据项目，打通商品链接与详情采集、变体解析、数据清洗、价格匹配和 Shopify / WooCommerce 导出流程。基于 Python、DrissionPage、Scrapy 与 Tkinter 构建模块化工作台，完善 JSON 中间数据、任务恢复和定价报告，支持分阶段执行与重复处理。</p>
+      </article>
+      <article class="info-card">
+        <p class="post-date">2025.06 — 2026.04</p>
+        <h3>武汉金山软件有限公司</h3>
+        <span class="timeline-role">爬虫工程师</span>
+        <p class="card-description">基于 Python + Scrapy 框架设计多线程自动化采集工具，配置 IP 代理池突破反爬限制。设计数据采集—清洗—存储全流程自动化调度体系，搭建数据质量监控看板。搭建结构化数据存储库与权限管控体系，为 AI 模型训练提供稳定数据支撑。</p>
+      </article>
+      <article class="info-card">
+        <p class="post-date">2024.09 — 2026.06</p>
+        <h3>武汉生物工程学院</h3>
+        <span class="timeline-role">计算机科学与技术 · 本科</span>
+        <p class="card-description">主修算法设计、软件工程、设计模式、数据结构、数据库原理等核心课程。基于 Python 实现机器学习模型搭建与训练，掌握模型调优基础方法。</p>
+      </article>
+      <article class="info-card">
+        <p class="post-date">2021.09 — 2024.06</p>
+        <h3>武汉职业技术学院</h3>
+        <span class="timeline-role">软件技术 · 专科</span>
+        <p class="card-description">专业排名 34/243，获学院笃学奖学金。系统学习 Python 爬虫、JavaWeb、MySQL、Linux 等技术。2023 年通过全国计算机技术与软件专业技术资格考试，取得初级程序员证书。</p>
+      </article>
+    </HomeCardSection>
+
+    <HomeCardSection id="about-projects" eyebrow="Projects" title="我的项目" href="/projects/" linkLabel="查看全部项目">
+      {projects.map(project => (
+        <article class="project-card">
+          <div class="post-meta"><span>{getProjectGithubLabel(project)}</span></div>
+          <h3><a href={getProjectUrl(project)}>{project.data.title}</a></h3>
+          <p class="card-description">{project.data.description}</p>
+          <ul class="tag-list" aria-label="技术栈">{project.data.stack.map(item => <li>{item}</li>)}</ul>
+          {project.data.githubUrl && <p class="project-link-slot"><a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer">GitHub 仓库 ↗</a></p>}
+        </article>
+      ))}
+    </HomeCardSection>
+
+    <section class="contact-section" id="about-contact" aria-labelledby="about-contact-title">
+      <p class="eyebrow">Contact</p>
+      <h2 id="about-contact-title">联系我</h2>
+      <div class="contact-highlight">
+        <dl class="contact-details">
+          <div class="contact-item">
+            <dt>微信</dt>
+            <dd><span class="wechat-id">MALYU0505</span></dd>
+          </div>
+          <div class="contact-item">
+            <dt>QQ 邮箱</dt>
+            <dd><a href="mailto:2543035755@qq.com">2543035755@qq.com</a></dd>
+          </div>
+          <div class="contact-item">
+            <dt>Gmail 邮箱</dt>
+            <dd><a href="mailto:mrtx0505@gmail.com">mrtx0505@gmail.com</a></dd>
+          </div>
+        </dl>
+      </div>
     </section>
   </div>
 </BaseLayout>
+
+<style>
+  :global(.site-main:has(.about-page)) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .about-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    max-width: none;
+    height: 100svh;
+    min-height: 36rem;
+    margin-bottom: 0;
+    padding: 2rem 0;
+  }
+
+  .about-intro-copy {
+    min-width: 0;
+  }
+
+  .about-intro-copy > p:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-portrait {
+    display: grid;
+    place-items: center;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .about-portrait img {
+    /* 保留透明素材的完整轮廓，让人物在两种主题下都融入页面。 */
+    display: block;
+    width: min(100%, 26rem);
+    height: auto;
+    max-height: min(70svh, 38rem);
+    object-fit: contain;
+  }
+
+  .project-link-slot {
+    margin: 1rem 0 0;
+    font-size: 0.85rem;
+  }
+
+  .project-link-slot a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .contact-section {
+    padding: clamp(3rem, 6vw, 5rem) 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .contact-section h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-highlight {
+    /* 用连续的渐变高亮带呈现联系方式。 */
+    padding: 1.75rem clamp(1rem, 3vw, 2rem);
+    border-block: 1px solid color-mix(in srgb, var(--color-accent), transparent 65%);
+    border-left: 3px solid var(--color-accent);
+    background: linear-gradient(100deg, var(--color-accent-soft), transparent);
+  }
+
+  .contact-details {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    margin: 0;
+  }
+
+  .contact-item {
+    min-width: 0;
+  }
+
+  .contact-item dt {
+    margin-bottom: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .contact-item dd {
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-item a {
+    text-decoration: none;
+    transition: color 160ms ease;
+  }
+
+  .contact-item a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .contact-item a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  .wechat-id {
+    user-select: all;
+  }
+
+  @media (max-width: 760px) {
+    .contact-details {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+
+    .contact-item {
+      display: grid;
+      grid-template-columns: 5.5rem minmax(0, 1fr);
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .contact-item dt {
+      margin-bottom: 0;
+    }
+
+    .about-intro {
+      grid-template-columns: minmax(0, 1fr);
+      align-content: center;
+      gap: 1.5rem;
+      height: auto;
+      min-height: 100svh;
+      padding: 3rem 0;
+    }
+
+    .about-portrait img {
+      width: min(100%, 15rem);
+      max-height: 36svh;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-intro {
+      min-height: 39rem;
+    }
+  }
+</style>

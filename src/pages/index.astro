@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeCardSection from "../components/HomeCardSection.astro";
 import { getCollection } from "astro:content";
 import {
   getPostDescription,
@@ -37,35 +38,34 @@ const manualSeries = groupManualsBySeries(
 ---
 
 <BaseLayout>
-  <section class="hero">
-    <p class="eyebrow">Null Garden | LV MA</p>
-    <h1>在空白处种下想法。</h1>
-    <p>
-      你好，我是 LV MA。这里是 Null Garden，一个记录技术、AI 工具、项目实践和个人思考的地方。
-    </p>
-    <div class="hero-actions" aria-label="主要操作">
-      <a class="button button-primary" href="/blog/">阅读文章</a>
-      <a class="button button-secondary" href="/development-manual/">开发手册</a>
-      <a class="button button-secondary" href="/about/">关于我</a>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Latest Notes</p>
-        <h2>最新文章</h2>
+  <div class="home-page">
+    <section class="hero">
+      <p class="eyebrow">Null Garden | LV MA</p>
+      <h1>在空白处种下想法。</h1>
+      <p>
+        你好，我是 LV MA。这里是 Null Garden，一个记录技术、AI 工具、项目实践和个人思考的地方。
+      </p>
+      <div class="hero-actions" aria-label="主要操作">
+        <a class="button button-primary" href="/blog/">阅读文章</a>
+        <a class="button button-secondary" href="/development-manual/">开发手册</a>
+        <a class="button button-secondary" href="/about/">关于我</a>
       </div>
-      <a class="text-link" href="/blog/">查看全部</a>
-    </div>
-    <div class="post-grid">
+    </section>
+
+    <HomeCardSection
+      id="latest-notes"
+      eyebrow="Latest Notes"
+      title="最新文章"
+      href="/blog/"
+      linkLabel="查看全部"
+    >
       {posts.map((post) => (
         <article class="post-card">
           <p class="post-date">{getPostOrderLabel(post)}</p>
           <h3>
             <a href={`/blog/${post.id}/`}>{getPostTitle(post)}</a>
           </h3>
-          <p>{getPostDescription(post)}</p>
+          <p class="card-description">{getPostDescription(post)}</p>
           {post.data.tags.length > 0 && (
             <ul class="tag-list" aria-label="标签">
               {post.data.tags.map((tag) => <li>{tag}</li>)}
@@ -73,18 +73,15 @@ const manualSeries = groupManualsBySeries(
           )}
         </article>
       ))}
-    </div>
-  </section>
+    </HomeCardSection>
 
-  <section class="section">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Development Manual</p>
-        <h2>开发手册专栏</h2>
-      </div>
-      <a class="text-link" href="/development-manual/">查看全部手册</a>
-    </div>
-    <div class="manual-series-grid">
+    <HomeCardSection
+      id="manual-series"
+      eyebrow="Development Manual"
+      title="开发手册专栏"
+      href="/development-manual/"
+      linkLabel="查看全部手册"
+    >
       {manualSeries.map((series) => {
         const firstManual = series.entries[0];
         return (
@@ -98,7 +95,7 @@ const manualSeries = groupManualsBySeries(
                 {series.title}
               </a>
             </h3>
-            {firstManual && <p>{getManualDescription(firstManual)}</p>}
+            {firstManual && <p class="card-description">{getManualDescription(firstManual)}</p>}
             <ul class="manual-mini-list" aria-label={`${series.title} 预览`}>
               {series.entries.slice(0, 3).map((manual) => (
                 <li>
@@ -111,18 +108,15 @@ const manualSeries = groupManualsBySeries(
           </article>
         );
       })}
-    </div>
-  </section>
+    </HomeCardSection>
 
-  <section class="section">
-    <div class="section-heading">
-      <div>
-        <p class="eyebrow">Projects</p>
-        <h2>最近收录的项目</h2>
-      </div>
-      <a class="text-link" href="/projects/">查看全部项目</a>
-    </div>
-    <div class="project-grid project-grid-preview">
+    <HomeCardSection
+      id="recent-projects"
+      eyebrow="Projects"
+      title="我的项目"
+      href="/projects/"
+      linkLabel="查看全部项目"
+    >
       {projects.map((project) => (
         <article class="project-card">
           <div class="post-meta">
@@ -132,7 +126,7 @@ const manualSeries = groupManualsBySeries(
           <h3>
             <a href={getProjectUrl(project)}>{getProjectTitle(project)}</a>
           </h3>
-          <p>{getProjectDescription(project)}</p>
+          <p class="card-description">{getProjectDescription(project)}</p>
           {project.data.stack.length > 0 && (
             <ul class="tag-list" aria-label="技术栈">
               {project.data.stack.map((item) => <li>{item}</li>)}
@@ -140,6 +134,29 @@ const manualSeries = groupManualsBySeries(
           )}
         </article>
       ))}
-    </div>
-  </section>
+    </HomeCardSection>
+  </div>
 </BaseLayout>
+
+<style>
+  :global(.site-main:has(.home-page)) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100svh;
+    min-height: 36rem;
+    margin-bottom: 0;
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      min-height: 39rem;
+    }
+  }
+</style>

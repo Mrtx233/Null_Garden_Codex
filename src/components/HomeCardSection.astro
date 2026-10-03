@@ -1,0 +1,178 @@
+---
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  href?: string;
+  linkLabel?: string;
+  layout?: "scroll" | "grid";
+}
+const { id, eyebrow, title, href, linkLabel, layout = "scroll" } = Astro.props;
+---
+
+<section
+  class:list={["home-card-section", { "home-card-section-grid": layout === "grid" }]}
+  data-home-section={layout === "scroll" ? true : undefined}
+  aria-labelledby={`${id}-title`}
+>
+  <div class="home-section-panel" data-home-panel>
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id={`${id}-title`}>{title}</h2>
+      </div>
+      {href && linkLabel && <a class="text-link" href={href}>{linkLabel}</a>}
+    </div>
+    <div
+      class="home-card-rail"
+      id={`${id}-cards`}
+      data-home-rail={layout === "scroll" ? true : undefined}
+      role="region"
+      aria-label={`${title}卡片`}
+      tabindex={layout === "scroll" ? 0 : undefined}
+    >
+      <slot />
+    </div>
+  </div>
+</section>
+
+<script>
+  import "../scripts/homeScroll";
+</script>
+
+<style>
+  .home-card-section {
+    min-width: 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .home-section-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    height: 100svh;
+    min-height: 36rem;
+    padding: 2rem 0;
+    background: var(--color-bg);
+  }
+
+  .section-heading {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .section-heading h2 {
+    margin-bottom: 0;
+  }
+
+  .home-card-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(19rem, 32vw, 25rem);
+    gap: 1rem;
+    flex: 0 0 auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+    padding: 0.3rem 0 0.75rem;
+  }
+
+  .home-card-rail > :global(article) {
+    height: 25rem;
+    min-width: 0;
+    overflow-y: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-align: start;
+    scrollbar-width: thin;
+    overflow-wrap: anywhere;
+  }
+
+  .home-card-rail :global(article > h3) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .home-card-rail :global(.card-description) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    height: 5.55em;
+    line-height: 1.85;
+    margin-bottom: 0;
+    overflow: hidden;
+  }
+
+  .home-card-section-grid .home-section-panel {
+    height: auto;
+    min-height: max(100svh, 36rem);
+  }
+
+  .home-card-section-grid .home-card-rail {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .home-card-section-grid .home-card-rail > :global(article) {
+    height: auto;
+    min-height: 25rem;
+    overflow-y: visible;
+  }
+
+  .home-card-section-grid .home-card-rail :global(.card-description) {
+    display: block;
+    -webkit-line-clamp: unset;
+    height: auto;
+    overflow: visible;
+  }
+
+  .home-card-section[data-home-pinned] {
+    height: calc(100svh + var(--home-scroll-distance, 0px));
+  }
+
+  [data-home-pinned] .home-section-panel {
+    position: sticky;
+    top: 0;
+    min-height: 0;
+  }
+
+  [data-home-pinned] .home-card-rail {
+    scroll-snap-type: none;
+    scrollbar-width: none;
+  }
+
+  [data-home-pinned] .home-card-rail > :global(article) {
+    height: min(25rem, calc(100svh - 15rem));
+  }
+
+  [data-home-pinned] .home-card-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 980px) {
+    .home-card-section-grid .home-card-rail {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .home-card-rail {
+      grid-auto-columns: min(21rem, 86%);
+    }
+    .home-section-panel {
+      gap: 1.25rem;
+      min-height: 39rem;
+    }
+    .home-card-section-grid .home-card-rail {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .home-card-section-grid .home-section-panel {
+      min-height: max(100svh, 39rem);
+    }
+  }
+</style>

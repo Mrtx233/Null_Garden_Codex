@@ -9,7 +9,7 @@ const {
 } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
 const shareImage = new URL("/share.png", Astro.site ?? Astro.url).toString();
-const navigation = [ ["/", "首页"], ["/blog/", "文章"], ["/development-manual/", "手册"], ["/projects/", "项目"], ["/search/", "搜索"], ["/about/", "关于"] ];
+const navigation = [ ["/", "首页"], ["/blog/", "文章"], ["/development-manual/", "手册"], ["/projects/", "项目"], ["/about/", "关于"] ];
 ---
 <!doctype html>
 <html lang="zh-CN" data-theme="dark">
@@ -30,7 +30,6 @@ const navigation = [ ["/", "首页"], ["/blog/", "文章"], ["/development-manua
     <meta name="twitter:card" content="summary_large_image" />
     {!noindex && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title="Null Garden 文章订阅" href="/rss.xml" />
     <title>{title}</title>
     <script is:inline>
       // 在正文绘制前恢复主题；禁用存储时仍可正常阅读与切换。
@@ -52,7 +51,7 @@ const navigation = [ ["/", "首页"], ["/blog/", "文章"], ["/development-manua
     <main class="site-main" id="main-content" tabindex="-1"><slot /></main>
     <footer class="site-footer">
       <p>Null Garden | LV MA</p>
-      <nav aria-label="页脚导航"><a href="/search/">查找内容</a><a href="/rss.xml">RSS 订阅</a><a href="#page-top">返回顶部 ↑</a></nav>
+      <nav aria-label="页脚导航"><a href="#page-top">返回顶部 ↑</a></nav>
     </footer>
     <script>
       import "../scripts/browser";
